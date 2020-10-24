@@ -1,4 +1,4 @@
-package com.example.flutter_imed
+package com.example.flutterservicos2
 
 import io.flutter.embedding.android.FlutterActivity
 

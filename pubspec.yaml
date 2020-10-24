@@ -1,4 +1,4 @@
-name: flutter_imed
+name: flutterservicos2
 description: A new Flutter project.
 
 # The following line prevents the package from being accidentally published to
@@ -23,12 +23,14 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_auth_buttons:
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
+  cloud_firestore: 0.14.1+3
+  firebase_core : "^0.5.0+1"
+  flutter_auth_buttons: "0.10.0"
 
 dev_dependencies:
   flutter_test:
@@ -44,12 +46,6 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
-
-  assets:
-    - assets/f-icon.png
-    - assets/google-icon.png
-    - assets/logo.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -81,6 +77,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
-
-
-
