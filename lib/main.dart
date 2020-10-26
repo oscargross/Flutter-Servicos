@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-//import 'package:flutter_imed/pages/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import './pages/login.dart';
+import './pages/singUp.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -15,13 +16,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Title',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.deepOrange,
-      ),
-      home: new HomePage(),
-    );
+        title: 'Title',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.deepOrange,
+        ),
+        initialRoute: SignUp.tag,
+        routes: {
+          Login.tag: (context) => Login(),
+          SignUp.tag: (context) => SignUp(),
+        });
   }
 }
 

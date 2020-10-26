@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
+import 'package:flutterservicos2/pages/singUp.dart';
 
 class Login extends StatelessWidget {
+  static String tag = "/login";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +16,7 @@ class Login extends StatelessWidget {
         SizedBox(
           height: 220,
           width: 220,
-          child: Image.asset("assets/logo.png"),
+          //child: Image.asset("assets/logo.png"),
         ),
         TextFormField(
           // autofocus: true,
@@ -33,7 +36,7 @@ class Login extends StatelessWidget {
         ),
         TextFormField(
           // autofocus: true,
-          keyboardType: TextInputType.text,
+          keyboardType: TextInputType.visiblePassword,
           obscureText: true,
           decoration: InputDecoration(
             labelText: "Senha",
@@ -99,7 +102,12 @@ class Login extends StatelessWidget {
               "Cadastre-se",
               textAlign: TextAlign.center,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SignUp()),
+              );
+            },
           ),
         ),
       ]),
