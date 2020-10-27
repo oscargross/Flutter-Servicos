@@ -1,10 +1,7 @@
-import 'package:flutterservicos2/models/service.dart';
 import 'package:flutterservicos2/pages/login.dart';
-
-import '../models/worker.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../models/worker.dart';
+import 'package:flutterservicos2/pages/serviceRegister.dart';
 
 class SignUp extends StatefulWidget {
   static String tag = "/signUp";
@@ -14,20 +11,19 @@ class SignUp extends StatefulWidget {
 }
 
 class SignUpState extends State<SignUp> {
-  bool valuefirst = false;
-  bool valuesecond = false;
+  bool prof = true;
+  bool cliente = false;
+  var nome = TextEditingController();
+  var cidade = TextEditingController();
+  var cpf = TextEditingController();
+  var email = TextEditingController();
+  var senha = TextEditingController();
 
 //class SignUp extends StatefulWidget {
 
   @override
   Widget build(BuildContext context) {
     var form = GlobalKey<FormState>();
-
-    var nome = TextEditingController();
-    var cidade = TextEditingController();
-    var cpf = TextEditingController();
-    var email = TextEditingController();
-    var senha = TextEditingController();
 
     //final Worker worker;
 
@@ -161,22 +157,22 @@ class SignUpState extends State<SignUp> {
                     CheckboxListTile(
                       title: const Text('Sou Profissional'),
                       subtitle: Text('Quero oferecer meus serviços'),
-                      value: this.valuefirst,
+                      value: this.prof,
                       onChanged: (bool value) {
                         setState(() {
-                          this.valuefirst = value;
-                          valuesecond = false;
+                          this.prof = value;
+                          cliente = false;
                         });
                       },
                     ),
                     CheckboxListTile(
                       title: const Text('Sou Cliente'),
-                      subtitle: Text('Quero contratar'),
-                      value: this.valuesecond,
+                      subtitle: Text('Quero contratar serviços'),
+                      value: this.cliente,
                       onChanged: (bool value) {
                         setState(() {
-                          this.valuesecond = value;
-                          valuefirst = false;
+                          this.cliente = value;
+                          prof = false;
                         });
                       },
                     ),
@@ -216,13 +212,18 @@ class SignUpState extends State<SignUp> {
                                 'cpf': cpf.text,
                                 'email': email.text,
                                 'senha': senha.text,
-                                'profissional': true,
+                                'profissional': prof,
                               });
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Login()),
-                              );
+                              prof
+                                  ? Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              ServiceRegister()))
+                                  : Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Login()));
                             }
                           },
                         ),
