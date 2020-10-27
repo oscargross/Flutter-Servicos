@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import './pages/login.dart';
 import './pages/singUp.dart';
+import './pages/serviceRegister.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         routes: {
           Login.tag: (context) => Login(),
           SignUp.tag: (context) => SignUp(),
+          ServiceRegister.tag: (context) => ServiceRegister(),
         });
   }
 }
