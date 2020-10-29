@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import './pages/login.dart';
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.deepOrange,
         ),
-        initialRoute: SignUp.tag,
+        initialRoute: Login.tag,
         routes: {
           Login.tag: (context) => Login(),
           SignUp.tag: (context) => SignUp(),
@@ -34,8 +35,6 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
     return Scaffold(
         appBar: AppBar(
           title: Text("title"),

@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutterservicos2/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 class ServiceRegister extends StatefulWidget {
+  //ServiceRegister({this.index});
+
   static String tag = "/serviceRegister";
 
   @override
@@ -20,6 +23,12 @@ class ServiceRegisterState extends State<ServiceRegister> {
   @override
   Widget build(BuildContext context) {
     var form = GlobalKey<FormState>();
+
+    var snapshots = FirebaseFirestore.instance
+        .collection('todo')
+        .where('excluido', isEqualTo: false)
+        .orderBy('data')
+        .snapshots();
 
     //final Worker worker;
 

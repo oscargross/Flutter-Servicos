@@ -214,6 +214,8 @@ class SignUpState extends State<SignUp> {
                                 'senha': senha.text,
                                 'profissional': prof,
                               });
+                              //FirebaseUser user = await FirebaseAuth.instance.currentUser();
+
                               prof
                                   ? Navigator.push(
                                       context,
