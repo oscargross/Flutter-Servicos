@@ -32,6 +32,7 @@ dependencies:
   firebase_core : "^0.5.0+1"
   flutter_auth_buttons: "0.10.0"
   flutter_masked_text: "0.8.0"
+  firebase_auth: "0.18.1+2"
 
 dev_dependencies:
   flutter_test:
