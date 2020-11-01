@@ -21,12 +21,9 @@ class SignUpState extends State<SignUp> {
   var senha = TextEditingController();
   String erro = "";
 
-//class SignUp extends StatefulWidget {
-
   @override
   Widget build(BuildContext context) {
     var form = GlobalKey<FormState>();
-    setState(() => this.erro = '');
 
     return Scaffold(
         appBar: AppBar(
@@ -219,15 +216,10 @@ class SignUpState extends State<SignUp> {
                                       "Erro ao cadastrar usuário. Tente Novamente");
                                 }
                                 prof
-                                    ? Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                ServiceRegister()))
-                                    : Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => Login()));
+                                    ? Navigator.pushNamed(
+                                        context, '/serviceRegister')
+                                    : Navigator.pushNamed(
+                                        context, '/serviceRegister');
                               }
                             }),
                       ),

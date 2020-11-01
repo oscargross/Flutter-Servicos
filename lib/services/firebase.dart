@@ -6,16 +6,13 @@ FirebaseFirestore db = FirebaseFirestore.instance;
 
 String addUser(var nome, var cidade, var cpf, var email, var senha, bool prof) {
   try {
+    createUserWithEmailAndPassword(email, senha);
     db.collection('usuario').doc(ref.id).set({
-      //await Firestore.instance.collection('todo').add({
       'nome': nome.text,
       'cidade': cidade.text,
       'cpf': cpf.text,
-      'email': email.text,
-      'senha': senha.text,
       'profissional': prof,
     });
-    print("AAAAAAAAAAAAAAAEEEEEEEEEEEEEEEE" + ref.id);
     return null;
   } catch (e) {
     print(e);
@@ -35,11 +32,10 @@ String addService(bool seg, bool ter, bool qua, bool qui, bool sex, bool sab,
       'sex': sex,
       'sab': sab,
       'dom': dom,
-      'valor': valor.floor,
+      'valor': valor.text,
       'servico': servico.text,
       'profissional': ref.id,
     });
-    print("UUUUUUUUUUUUUUUEEEEEEEEEEEEEEEE" + ref.id);
 
     return null;
   } catch (e) {
