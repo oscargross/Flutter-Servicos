@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import './pages/login.dart';
@@ -10,11 +9,11 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(
-    MyApp(),
+    App(),
   );
 }
 
-class MyApp extends StatelessWidget {
+class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,11 +22,11 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.deepOrange,
         ),
-        initialRoute: Login.tag,
+        initialRoute: '/login',
         routes: {
-          Login.tag: (context) => Login(),
-          SignUp.tag: (context) => SignUp(),
-          ServiceRegister.tag: (context) => ServiceRegister(),
+          '/login': (context) => Login(),
+          '/signUp': (context) => SignUp(),
+          '/serviceRegister': (context) => ServiceRegister(),
         });
   }
 }

@@ -115,14 +115,12 @@ class LoginState extends State<Login> {
                             onPressed: () async {
                               dynamic result;
                               if (form.currentState.validate()) {
-                                result = await createUserWithEmailAndPassword(
+                                result = await signInWithEmailAndPassword(
                                     email, senha);
                                 result != null
                                     ? setState(() => this.erro = result)
-                                    : Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => SignUp()));
+                                    : Navigator.pushNamed(
+                                        context, '/serviceRegister');
                               }
                             }),
                       ),
@@ -147,10 +145,7 @@ class LoginState extends State<Login> {
                               textAlign: TextAlign.center,
                             ),
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SignUp()));
+                              Navigator.pushNamed(context, '/serviceRegister');
                             }))
                   ]))
             ])));
