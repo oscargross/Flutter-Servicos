@@ -2,6 +2,7 @@ import 'package:flutterservicos2/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutterservicos2/pages/serviceRegister.dart';
+import 'package:flutterservicos2/services/firebase.dart';
 
 class SignUp extends StatefulWidget {
   static String tag = "/signUp";
@@ -18,14 +19,14 @@ class SignUpState extends State<SignUp> {
   var cpf = TextEditingController();
   var email = TextEditingController();
   var senha = TextEditingController();
+  String erro = "";
 
 //class SignUp extends StatefulWidget {
 
   @override
   Widget build(BuildContext context) {
     var form = GlobalKey<FormState>();
-
-    //final Worker worker;
+    setState(() => this.erro = '');
 
     return Scaffold(
         appBar: AppBar(
@@ -176,6 +177,12 @@ class SignUpState extends State<SignUp> {
                         });
                       },
                     ),
+                    Text(
+                      erro,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     Container(
                       height: 60,
                       alignment: Alignment.center,
@@ -187,48 +194,42 @@ class SignUpState extends State<SignUp> {
                       ),
                       child: SizedBox.expand(
                         child: FlatButton(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Text(
-                                "Cadastrar",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                  fontSize: 20,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  "Cadastrar",
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ),
+                                  textAlign: TextAlign.center,
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                          onPressed: () async {
-                            if (form.currentState.validate()) {
-                              await FirebaseFirestore.instance
-                                  .collection('usuario')
-                                  .add({
-                                //await Firestore.instance.collection('todo').add({
-                                'nome': nome.text,
-                                'cidade': cidade.text,
-                                'cpf': cpf.text,
-                                'email': email.text,
-                                'senha': senha.text,
-                                'profissional': prof,
-                              });
-                              //FirebaseUser user = await FirebaseAuth.instance.currentUser();
-
-                              prof
-                                  ? Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              ServiceRegister()))
-                                  : Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Login()));
-                            }
-                          },
-                        ),
+                              ],
+                            ),
+                            onPressed: () async {
+                              if (form.currentState.validate()) {
+                                try {
+                                  await addUser(
+                                      nome, cidade, cpf, email, senha, prof);
+                                } catch (e) {
+                                  print(e);
+                                  setState(() => this.erro =
+                                      "Erro ao cadastrar usuário. Tente Novamente");
+                                }
+                                prof
+                                    ? Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                ServiceRegister()))
+                                    : Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Login()));
+                              }
+                            }),
                       ),
                     ),
                   ]))

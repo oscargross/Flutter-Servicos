@@ -6,11 +6,19 @@ import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:flutterservicos2/pages/singUp.dart';
 import 'package:flutterservicos2/services/register.dart';
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   static String tag = "/login";
+
+  @override
+  LoginState createState() => LoginState();
+}
+
+class LoginState extends State<Login> {
   var form = GlobalKey<FormState>();
   var email = TextEditingController();
   var senha = TextEditingController();
+
+  String erro = "";
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +35,12 @@ class Login extends StatelessWidget {
               Form(
                   key: form,
                   child: Column(children: <Widget>[
+                    Text(
+                      erro,
+                      textAlign: TextAlign.center,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
                     TextFormField(
                       // autofocus: true,
                       keyboardType: TextInputType.emailAddress,
@@ -88,7 +102,7 @@ class Login extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  "Cadastrar",
+                                  "Login",
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
@@ -102,12 +116,14 @@ class Login extends StatelessWidget {
                               dynamic result;
                               if (form.currentState.validate()) {
                                 result = await createUserWithEmailAndPassword(
-                                    'teste4@teste.com', 'teste12345');
+                                    email, senha);
+                                result != null
+                                    ? setState(() => this.erro = result)
+                                    : Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => SignUp()));
                               }
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SignUp()));
                             }),
                       ),
                     ),
@@ -139,16 +155,4 @@ class Login extends StatelessWidget {
                   ]))
             ])));
   }
-}
-
-class HexColor extends Color {
-  static int _getColorFromHex(String hexColor) {
-    hexColor = hexColor.toUpperCase().replaceAll("#", "");
-    if (hexColor.length == 6) {
-      hexColor = "FF" + hexColor;
-    }
-    return int.parse(hexColor, radix: 16);
-  }
-
-  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
 }
