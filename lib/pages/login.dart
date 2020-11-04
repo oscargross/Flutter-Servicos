@@ -42,7 +42,7 @@ class LoginState extends State<Login> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     TextFormField(
-                      // autofocus: true,
+                      onChanged: (value) => setState(() => this.erro = ""),
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                         labelText: "E-mail",
@@ -58,6 +58,7 @@ class LoginState extends State<Login> {
                         if (value.isEmpty) {
                           return 'Este campo não pode ser vazio';
                         }
+                        setState(() => this.erro = "");
                         return null;
                       },
                     ),
@@ -65,7 +66,7 @@ class LoginState extends State<Login> {
                       height: 10,
                     ),
                     TextFormField(
-                      // autofocus: true,
+                      onChanged: (value) => setState(() => this.erro = ""),
                       keyboardType: TextInputType.visiblePassword,
                       decoration: InputDecoration(
                         labelText: "Senha",
@@ -117,7 +118,7 @@ class LoginState extends State<Login> {
                               if (form.currentState.validate()) {
                                 result = await signInWithEmailAndPassword(
                                     email, senha);
-                                result != null
+                                result != false
                                     ? setState(() => this.erro = result)
                                     : Navigator.pushNamed(
                                         context, '/serviceRegister');
@@ -145,7 +146,7 @@ class LoginState extends State<Login> {
                               textAlign: TextAlign.center,
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/serviceRegister');
+                              Navigator.pushNamed(context, '/signUp');
                             }))
                   ]))
             ])));

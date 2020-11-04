@@ -207,19 +207,15 @@ class SignUpState extends State<SignUp> {
                             ),
                             onPressed: () async {
                               if (form.currentState.validate()) {
-                                try {
-                                  await addUser(
-                                      nome, cidade, cpf, email, senha, prof);
-                                } catch (e) {
-                                  print(e);
-                                  setState(() => this.erro =
-                                      "Erro ao cadastrar usuário. Tente Novamente");
-                                }
-                                prof
-                                    ? Navigator.pushNamed(
-                                        context, '/serviceRegister')
-                                    : Navigator.pushNamed(
-                                        context, '/serviceRegister');
+                                var result = await addUser(
+                                    nome, cidade, cpf, email, senha, prof);
+                                result != null
+                                    ? setState(() => this.erro = result)
+                                    : prof
+                                        ? Navigator.pushNamed(
+                                            context, '/serviceRegister')
+                                        : Navigator.pushNamed(
+                                            context, '/findProfessional');
                               }
                             }),
                       ),
