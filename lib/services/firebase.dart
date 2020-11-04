@@ -1,29 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutterservicos2/models/user.dart';
 import 'package:flutterservicos2/services/register.dart';
 
 FirebaseFirestore db = FirebaseFirestore.instance;
-
-String addUser(var nome, var cidade, var cpf, var email, var senha, bool prof) {
+Usuario ref;
+Future addUser(
+    var nome, var cidade, var cpf, var email, var senha, bool prof) async {
   try {
-    createUserWithEmailAndPassword(email, senha);
-    db.collection('usuario').doc(ref.id).set({
-      'nome': nome.text,
-      'cidade': cidade.text,
-      'cpf': cpf.text,
-      'profissional': prof,
-    });
-    return null;
+    var authSign = await createUserWithEmailAndPassword(email, senha);
+    if (authSign == null) {
+      await db.collection('usuario').doc(ref.uid).set({
+        'nome': nome.text,
+        'cidade': cidade.text.toUpperCase(),
+        'cpf': cpf.text,
+        'profissional': prof,
+      });
+      ref = Usuario(id);
+
+      return null;
+    }
+    signOut();
+    return authSign;
   } catch (e) {
-    print(e);
-    return 'Não foi possível concluir o cadastro';
+    signOut();
+    return 'Erro ao cadastrar';
   }
 }
 
-String addService(bool seg, bool ter, bool qua, bool qui, bool sex, bool sab,
-    bool dom, var valor, var servico) {
+Future addService(bool seg, bool ter, bool qua, bool qui, bool sex, bool sab,
+    bool dom, var valor, var servico) async {
   try {
-    db.collection('servicos').add({
+    await db.collection('servicos').add({
       //await Firestore.instance.collection('todo').add({
       'seg': seg,
       'ter': ter,
@@ -33,8 +41,8 @@ String addService(bool seg, bool ter, bool qua, bool qui, bool sex, bool sab,
       'sab': sab,
       'dom': dom,
       'valor': valor.text,
-      'servico': servico.text,
-      'profissional': ref.id,
+      'servico': servico.text.toUpperCase(),
+      'profissional': ref.uid,
     });
 
     return null;

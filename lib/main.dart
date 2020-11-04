@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutterservicos2/pages/findProfessional.dart';
 import './pages/login.dart';
 import './pages/singUp.dart';
 import './pages/serviceRegister.dart';
@@ -22,11 +23,12 @@ class App extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.deepOrange,
         ),
-        initialRoute: '/login',
+        initialRoute: '/findProfessional',
         routes: {
           '/login': (context) => Login(),
           '/signUp': (context) => SignUp(),
           '/serviceRegister': (context) => ServiceRegister(),
+          '/findProfessional': (context) => FindProfessional(),
         });
   }
 }
