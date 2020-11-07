@@ -170,7 +170,9 @@ class FindProfessionalState extends State<FindProfessional> {
                                 ),
                               ],
                             ),
-                            onPressed: () {}),
+                            onPressed: () {
+                              Navigator.popAndPushNamed(context, '/home_page');
+                            }),
                       ),
                     ),
                   ]))

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutterservicos2/pages/findProfessional.dart';
+import 'package:flutterservicos2/pages/pages-menu/home_page.dart';
 import './pages/login.dart';
 import './pages/singUp.dart';
 import './pages/serviceRegister.dart';
@@ -21,7 +22,7 @@ class App extends StatelessWidget {
         title: 'ServiçosApp',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.deepOrange,
+          primaryColor: HexColor("#F5B732"),
         ),
         initialRoute: '/findProfessional',
         routes: {
@@ -29,11 +30,24 @@ class App extends StatelessWidget {
           '/signUp': (context) => SignUp(),
           '/serviceRegister': (context) => ServiceRegister(),
           '/findProfessional': (context) => FindProfessional(),
+          '/home_page': (context) => HomePage(),
         });
   }
 }
 
-class HomePage extends StatelessWidget {
+class HexColor extends Color {
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll("#", "");
+    if (hexColor.length == 6) {
+      hexColor = "FF" + hexColor;
+    }
+    return int.parse(hexColor, radix: 16);
+  }
+
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+}
+
+/*class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,4 +77,4 @@ class HomePage extends StatelessWidget {
               );
             }));
   }
-}
+}*/
