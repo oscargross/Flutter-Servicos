@@ -1,14 +1,9 @@
 import 'package:flutter/cupertino.dart';
-//import 'package:flutterservicos2/assets/images/logo.png';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
-import 'package:flutterservicos2/pages/singUp.dart';
 import 'package:flutterservicos2/services/register.dart';
 
 class Login extends StatefulWidget {
-  static String tag = "/login";
-
   @override
   LoginState createState() => LoginState();
 }
