@@ -209,13 +209,9 @@ class SignUpState extends State<SignUp> {
                               if (form.currentState.validate()) {
                                 var result = await addUser(
                                     nome, cidade, cpf, email, senha, prof);
-                                result != null
-                                    ? setState(() => this.erro = result)
-                                    : prof
-                                        ? Navigator.pushNamed(
-                                            context, '/serviceRegister')
-                                        : Navigator.pushNamed(
-                                            context, '/findProfessional');
+                                result == false
+                                    ? Navigator.pushNamed(context, '/login')
+                                    : setState(() => this.erro = result);
                               }
                             }),
                       ),
