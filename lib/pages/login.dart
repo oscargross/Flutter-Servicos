@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:flutterservicos2/services/register.dart';
+import 'package:flutterservicos2/services/firebase.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -73,6 +74,7 @@ class LoginState extends State<Login> {
                       ),
                       style: TextStyle(fontSize: 20),
                       controller: senha,
+                      obscureText: true,
                       validator: (value) {
                         if (value.isEmpty) {
                           return 'Este campo não pode ser vazio';
@@ -115,23 +117,28 @@ class LoginState extends State<Login> {
                                     email, senha);
                                 result != false
                                     ? setState(() => this.erro = result)
-                                    : Navigator.pushNamed(
-                                        context, '/serviceRegister');
+                                    : await db
+                                        .collection('usuario')
+                                        .doc(ref.uid)
+                                        .snapshots()
+                                        .listen((snapshot) async {
+                                        snapshot.get('profissional')
+                                            ? Navigator.popAndPushNamed(
+                                                context, '/serviceRegister')
+                                            : Navigator.popAndPushNamed(
+                                                context, '/findProfessional');
+                                      });
+
+                                // ? Navigator.popAndPushNamed(
+                                //     context, '/serviceRegister')
+                                // : Navigator.popAndPushNamed(
+                                //     context, '/findProfessional');
                               }
                             }),
                       ),
                     ),
-                    GoogleSignInButton(
-                      onPressed: () {},
-                      darkMode: true,
-                      text: "Login com Google",
-                    ),
                     SizedBox(
                       height: 5,
-                    ),
-                    FacebookSignInButton(
-                      onPressed: () {},
-                      text: "Login com Facebook",
                     ),
                     Container(
                         height: 40,

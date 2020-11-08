@@ -24,7 +24,7 @@ class App extends StatelessWidget {
         theme: ThemeData(
           primaryColor: HexColor("#F5B732"),
         ),
-        initialRoute: '/findProfessional',
+        initialRoute: '/login',
         routes: {
           '/login': (context) => Login(),
           '/signUp': (context) => SignUp(),

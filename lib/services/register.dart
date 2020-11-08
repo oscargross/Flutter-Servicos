@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutterservicos2/models/user.dart';
 import 'package:flutterservicos2/services/firebase.dart';
 
-var id;
+//var id;
 UserCredential userCredential;
 Future createUserWithEmailAndPassword(var emailVar, var passwordVar) async {
   String email = emailVar.text;
@@ -11,10 +11,9 @@ Future createUserWithEmailAndPassword(var emailVar, var passwordVar) async {
   try {
     userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email.trim(), password: password);
-    print('DDDDDDDDDDDDDDDDD');
-    id = await db.collection('usuario').doc(userCredential.user.uid);
 
-    return null;
+    ref = Usuario(userCredential.user.uid);
+    return false;
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
       print('weak-password');
@@ -24,7 +23,7 @@ Future createUserWithEmailAndPassword(var emailVar, var passwordVar) async {
       return 'Este e-mail já está em uso';
     }
   } catch (e) {
-    return e.toString();
+    return 'Erro ao cadastrar usuario';
   }
 }
 
@@ -36,6 +35,7 @@ Future signInWithEmailAndPassword(var emailVar, var passwordVar) async {
         .signInWithEmailAndPassword(email: email, password: password);
 
     ref = Usuario(userCredential.user.uid);
+
     return false;
   } on FirebaseAuthException catch (e) {
     if (e.code == 'user-not-found') {
