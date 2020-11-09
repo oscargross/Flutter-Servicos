@@ -35,11 +35,13 @@ class ServiceRegisterState extends State<ServiceRegister> {
 
   @override
   Widget build(BuildContext context) {
-    if (ref.uid == null) {
+    /*if (ref.uid == null) {
       return Login();
     } else {
       return Body(context);
-    }
+    }*/
+
+    return Body(context);
   }
 
   Widget Body(BuildContext context) {
@@ -47,7 +49,7 @@ class ServiceRegisterState extends State<ServiceRegister> {
 
     var snapshot = db
         .collection('servicos')
-        .where('profissional', isEqualTo: ref.uid)
+        .where('profissional', isEqualTo: "6ITMGwJMllt27s07Ko9I")
         .snapshots();
 
     return Scaffold(
@@ -212,75 +214,13 @@ class ServiceRegisterState extends State<ServiceRegister> {
                           setState(() => this.erro =
                               "Erro ao cadastrar serviço. Tente Novamente");
                         }
-                        Navigator.pushNamed(context, '/login');
+                        Navigator.popAndPushNamed(context, '/servico_page');
                       }
                     },
                   ),
                 ),
               ),
             ]),
-          ),
-          Container(
-              child: StreamBuilder(
-                  stream: snapshot,
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (!snapshot.hasData) return const Text("Loading...");
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      //itemExtent: 80.0,
-                      itemCount: snapshot.data.documents.length,
-                      itemBuilder: (context, index) {
-                        DocumentSnapshot doc = snapshot.data.documents[index];
-
-                        return ListTile(
-                          leading: GestureDetector(
-                            onTap: () {},
-                            child: Icon(Icons.edit),
-                          ),
-                          title: Text(
-                            doc['servico'] +
-                                "  ->  \$ " +
-                                doc['valor'].toString(),
-                            textAlign: TextAlign.center,
-                          ),
-                          trailing: GestureDetector(
-                            onTap: () {},
-                            child: Icon(Icons.delete),
-                          ),
-                        );
-                      },
-                    );
-                  })),
-          Container(
-            height: 60,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              color: Colors.amber,
-              borderRadius: BorderRadius.all(
-                Radius.circular(5),
-              ),
-            ),
-            child: SizedBox.expand(
-              child: FlatButton(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Text(
-                        "Finalizar",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                  onPressed: () async {
-                    signOut();
-                    Navigator.pushNamed(context, '/login');
-                  }),
-            ),
           ),
         ]),
       ),
