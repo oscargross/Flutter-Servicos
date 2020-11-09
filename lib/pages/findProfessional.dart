@@ -10,12 +10,12 @@ class FindProfessional extends StatefulWidget {
 }
 
 class FindProfessionalState extends State<FindProfessional> {
-  var selectedCurrency;
+  var cidade;
+  var servico;
 
   var form = GlobalKey<FormState>();
-  var cidade = TextEditingController();
-  var servico = TextEditingController();
-  var snap = db.collection("cidades").snapshots();
+  var snapCity = db.collection("cidades").snapshots();
+  var snapService = db.collection("listaServicos").snapshots();
 
   String erro = "";
 
@@ -40,68 +40,69 @@ class FindProfessionalState extends State<FindProfessional> {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     //dropDownText(),
-                    TextFormField(
-                      onChanged: (value) => setState(() => this.erro = ""),
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        labelText: "Cidade",
-                        labelStyle: TextStyle(
-                          color: Colors.black38,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 20,
-                        ),
-                      ),
-                      style: TextStyle(fontSize: 20),
-                      controller: cidade,
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Este campo não pode ser vazio';
-                        }
-                        setState(() => this.erro = "");
-                        return null;
-                      },
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    TextFormField(
-                      onChanged: (value) => setState(() => this.erro = ""),
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        labelText: "Serviço",
-                        labelStyle: TextStyle(
-                          color: Colors.black38,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 20,
-                        ),
-                      ),
-                      style: TextStyle(fontSize: 20),
-                      controller: servico,
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Este campo não pode ser vazio';
-                        }
-                        return null;
-                      },
-                    ),
+                    // TextFormField(
+                    //   onChanged: (value) => setState(() => this.erro = ""),
+                    //   keyboardType: TextInputType.text,
+                    //   decoration: InputDecoration(
+                    //     labelText: "Cidade",
+                    //     labelStyle: TextStyle(
+                    //       color: Colors.black38,
+                    //       fontWeight: FontWeight.w400,
+                    //       fontSize: 20,
+                    //     ),
+                    //   ),
+                    //   style: TextStyle(fontSize: 20),
+                    //   controller: cidade,
+                    //   validator: (value) {
+                    //     if (value.isEmpty) {
+                    //       return 'Este campo não pode ser vazio';
+                    //     }
+                    //     setState(() => this.erro = "");
+                    //     return null;
+                    //   },
+                    // ),
+                    // SizedBox(
+                    //   height: 10,
+                    // ),
+                    // TextFormField(
+                    //   onChanged: (value) => setState(() => this.erro = ""),
+                    //   keyboardType: TextInputType.text,
+                    //   decoration: InputDecoration(
+                    //     labelText: "Serviço",
+                    //     labelStyle: TextStyle(
+                    //       color: Colors.black38,
+                    //       fontWeight: FontWeight.w400,
+                    //       fontSize: 20,
+                    //     ),
+                    //   ),
+                    //   style: TextStyle(fontSize: 20),
+                    //   controller: servico,
+                    //   validator: (value) {
+                    //     if (value.isEmpty) {
+                    //       return 'Este campo não pode ser vazio';
+                    //     }
+                    //     return null;
+                    //   },
+                    // ),
                     SizedBox(
                       height: 10,
                     ),
                     Container(
                         child: StreamBuilder(
-                            stream: snap,
+                            stream: snapCity,
                             builder:
-                                (BuildContext context, AsyncSnapshot snap) {
-                              if (!snap.hasData)
+                                (BuildContext context, AsyncSnapshot snapCity) {
+                              if (!snapCity.hasData)
                                 return const Text("Loading...");
                               else {
                                 List<DropdownMenuItem> currencyItems = [];
-                                print(snap.data.documents);
+                                //print(snap.data.documents);
                                 for (int i = 0;
-                                    i < snap.data.docs.length;
+                                    i < snapCity.data.docs.length;
                                     i++) {
-                                  DocumentSnapshot snapshot = snap.data.docs[i];
-                                  print(snapshot.get('city'));
+                                  DocumentSnapshot snapshot =
+                                      snapCity.data.docs[i];
+                                  //print(snapshot.get('city'));
                                   currencyItems.add(
                                     DropdownMenuItem(
                                       child: Text(
@@ -119,24 +120,15 @@ class FindProfessionalState extends State<FindProfessional> {
                                     SizedBox(width: 50.0),
                                     DropdownButton(
                                       items: currencyItems,
-                                      onChanged: (currencyValue) {
-                                        // final snackBar = SnackBar(
-                                        //   content: Text(
-                                        //     'Selected Currency value is $currencyValue',
-                                        //     style: TextStyle(
-                                        //         color: Color(0xff11b719)),
-                                        //   ),
-                                        // );
-                                        // Scaffold.of(context)
-                                        //     .showSnackBar(snackBar);
+                                      onChanged: (value) {
                                         setState(() {
-                                          selectedCurrency = currencyValue;
+                                          cidade = value;
                                         });
                                       },
-                                      value: selectedCurrency,
+                                      value: cidade,
                                       isExpanded: false,
                                       hint: Text(
-                                        "Choose Currency Type",
+                                        "Escolha a cidade",
                                         style:
                                             TextStyle(color: Color(0xff11b719)),
                                       ),
@@ -145,6 +137,59 @@ class FindProfessionalState extends State<FindProfessional> {
                                 );
                               }
                             })),
+                    Container(
+                        child: StreamBuilder(
+                            stream: snapService,
+                            builder: (BuildContext context,
+                                AsyncSnapshot snapService) {
+                              if (!snapService.hasData)
+                                return const Text("Loading...");
+                              else {
+                                List<DropdownMenuItem> currencyItems = [];
+                                //print(snap.data.documents);
+                                for (int i = 0;
+                                    i < snapService.data.docs.length;
+                                    i++) {
+                                  DocumentSnapshot snapshot =
+                                      snapService.data.docs[i];
+                                  //print(snapshot.get('city'));
+                                  currencyItems.add(
+                                    DropdownMenuItem(
+                                      child: Text(
+                                        snapshot.get('service').toString(),
+                                        style:
+                                            TextStyle(color: Color(0xff11b719)),
+                                      ),
+                                      value: "${snapshot.id}",
+                                    ),
+                                  );
+                                }
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    SizedBox(width: 50.0),
+                                    DropdownButton(
+                                      items: currencyItems,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          servico = value;
+                                        });
+                                      },
+                                      value: servico,
+                                      isExpanded: false,
+                                      hint: Text(
+                                        "Escolha o serviço",
+                                        style:
+                                            TextStyle(color: Color(0xff11b719)),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                            })),
+                    SizedBox(
+                      height: 10,
+                    ),
                     Container(
                       height: 60,
                       alignment: Alignment.center,
@@ -171,7 +216,12 @@ class FindProfessionalState extends State<FindProfessional> {
                               ],
                             ),
                             onPressed: () {
-                              Navigator.popAndPushNamed(context, '/home_page');
+                              Navigator.pushNamed(context, '/login');
+                              var a = db
+                                  .collection('services')
+                                  .where('servico', isEqualTo: servico)
+                                  .where('cidade', isEqualTo: cidade)
+                                  .snapshots();
                             }),
                       ),
                     ),

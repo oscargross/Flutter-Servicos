@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:flutterservicos2/models/user.dart';
 import 'package:flutterservicos2/services/firebase.dart';
 import 'package:flutterservicos2/services/register.dart';
 
