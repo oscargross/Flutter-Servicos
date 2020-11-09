@@ -31,6 +31,8 @@ Future addUser(
 Future addService(bool seg, bool ter, bool qua, bool qui, bool sex, bool sab,
     bool dom, var valor, var servico) async {
   try {
+    print("Chegou aqui!");
+    print(ref);
     await db.collection('servicos').add({
       //await Firestore.instance.collection('todo').add({
       'seg': seg,
@@ -42,7 +44,7 @@ Future addService(bool seg, bool ter, bool qua, bool qui, bool sex, bool sab,
       'dom': dom,
       'valor': valor.text,
       'servico': servico.text.toUpperCase(),
-      'profissional': ref.uid,
+      'profissional': "6ITMGwJMllt27s07Ko9I",
     });
 
     return null;
