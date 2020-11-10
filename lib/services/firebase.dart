@@ -32,7 +32,6 @@ Future addUser(
 Future addService(bool seg, bool ter, bool qua, bool qui, bool sex, bool sab,
     bool dom, var valor, var servico) async {
   try {
-
     db.collection('usuario').doc(ref.uid).snapshots().listen((snapshot) async {
       var city = snapshot.get('cidade');
       print(city);

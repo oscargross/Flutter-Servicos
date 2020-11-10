@@ -12,7 +12,7 @@ class ServicoPage extends StatefulWidget {
 class _ServicoPageState extends State<ServicoPage> {
   var snapshot = db
       .collection('servicos')
-      .where('profissional', isEqualTo: "6ITMGwJMllt27s07Ko9I")
+      .where('profissional', isEqualTo: ref.uid)
       .snapshots();
 
   @override

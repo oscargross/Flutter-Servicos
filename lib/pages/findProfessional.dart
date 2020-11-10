@@ -24,7 +24,7 @@ class FindProfessionalState extends State<FindProfessional> {
     return Scaffold(
         appBar: AppBar(
           title: (Text("Encontrar Profissional ")),
-          backgroundColor: Colors.yellow[700],
+          centerTitle: true,
         ),
         body: Container(
             padding: EdgeInsets.only(top: 10, left: 40, right: 40),
@@ -39,51 +39,6 @@ class FindProfessionalState extends State<FindProfessional> {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    //dropDownText(),
-                    // TextFormField(
-                    //   onChanged: (value) => setState(() => this.erro = ""),
-                    //   keyboardType: TextInputType.text,
-                    //   decoration: InputDecoration(
-                    //     labelText: "Cidade",
-                    //     labelStyle: TextStyle(
-                    //       color: Colors.black38,
-                    //       fontWeight: FontWeight.w400,
-                    //       fontSize: 20,
-                    //     ),
-                    //   ),
-                    //   style: TextStyle(fontSize: 20),
-                    //   controller: cidade,
-                    //   validator: (value) {
-                    //     if (value.isEmpty) {
-                    //       return 'Este campo não pode ser vazio';
-                    //     }
-                    //     setState(() => this.erro = "");
-                    //     return null;
-                    //   },
-                    // ),
-                    // SizedBox(
-                    //   height: 10,
-                    // ),
-                    // TextFormField(
-                    //   onChanged: (value) => setState(() => this.erro = ""),
-                    //   keyboardType: TextInputType.text,
-                    //   decoration: InputDecoration(
-                    //     labelText: "Serviço",
-                    //     labelStyle: TextStyle(
-                    //       color: Colors.black38,
-                    //       fontWeight: FontWeight.w400,
-                    //       fontSize: 20,
-                    //     ),
-                    //   ),
-                    //   style: TextStyle(fontSize: 20),
-                    //   controller: servico,
-                    //   validator: (value) {
-                    //     if (value.isEmpty) {
-                    //       return 'Este campo não pode ser vazio';
-                    //     }
-                    //     return null;
-                    //   },
-                    // ),
                     SizedBox(
                       height: 10,
                     ),
@@ -107,30 +62,27 @@ class FindProfessionalState extends State<FindProfessional> {
                                     DropdownMenuItem(
                                       child: Text(
                                         snapshot.get('city').toString(),
-                                        style:
-                                            TextStyle(color: Color(0xff11b719)),
                                       ),
                                       value: "${snapshot.id}",
                                     ),
                                   );
                                 }
                                 return Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
-                                    SizedBox(width: 50.0),
-                                    DropdownButton(
-                                      items: currencyItems,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          cidade = value;
-                                        });
-                                      },
-                                      value: cidade,
-                                      isExpanded: false,
-                                      hint: Text(
-                                        "Escolha a cidade",
-                                        style:
-                                            TextStyle(color: Color(0xff11b719)),
+                                    Expanded(
+                                      child: DropdownButton(
+                                        items: currencyItems,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            cidade = value;
+                                          });
+                                        },
+                                        value: cidade,
+                                        isExpanded: true,
+                                        hint: Text(
+                                          "Escolha a cidade",
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -157,30 +109,27 @@ class FindProfessionalState extends State<FindProfessional> {
                                     DropdownMenuItem(
                                       child: Text(
                                         snapshot.get('service').toString(),
-                                        style:
-                                            TextStyle(color: Color(0xff11b719)),
                                       ),
                                       value: "${snapshot.id}",
                                     ),
                                   );
                                 }
                                 return Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
-                                    SizedBox(width: 50.0),
-                                    DropdownButton(
-                                      items: currencyItems,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          servico = value;
-                                        });
-                                      },
-                                      value: servico,
-                                      isExpanded: false,
-                                      hint: Text(
-                                        "Escolha o serviço",
-                                        style:
-                                            TextStyle(color: Color(0xff11b719)),
+                                    Expanded(
+                                      child: DropdownButton(
+                                        items: currencyItems,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            servico = value;
+                                          });
+                                        },
+                                        value: servico,
+                                        isExpanded: true,
+                                        hint: Text(
+                                          "Escolha o serviço",
+                                        ),
                                       ),
                                     ),
                                   ],
