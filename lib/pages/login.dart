@@ -124,7 +124,7 @@ class LoginState extends State<Login> {
                                         .listen((snapshot) async {
                                         snapshot.get('profissional')
                                             ? Navigator.popAndPushNamed(
-                                                context, '/serviceRegister')
+                                                context, '/home_page')
                                             : Navigator.popAndPushNamed(
                                                 context, '/findProfessional');
                                       });
