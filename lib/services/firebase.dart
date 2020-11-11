@@ -25,7 +25,7 @@ Future addUser(
     return authSign;
   } catch (e) {
     signOut();
-    return 'Erro ao cadastrar' + e.toString();
+    return 'Erro ao cadastrar';
   }
 }
 
@@ -34,7 +34,6 @@ Future addService(bool seg, bool ter, bool qua, bool qui, bool sex, bool sab,
   try {
     db.collection('usuario').doc(ref.uid).snapshots().listen((snapshot) async {
       var city = snapshot.get('cidade');
-      print(city);
       await db.collection('servicos').add({
         'seg': seg,
         'ter': ter,

@@ -2,13 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutterservicos2/services/firebase.dart';
-import 'package:flutterservicos2/services/register.dart';
-
-import 'login.dart';
 
 class ServiceRegister extends StatefulWidget {
-  //ServiceRegister({this.index});
-
   static String tag = "/serviceRegister";
 
   @override
@@ -16,9 +11,10 @@ class ServiceRegister extends StatefulWidget {
 }
 
 class ServiceRegisterState extends State<ServiceRegister> {
-  var servico = TextEditingController();
-  var valor = MoneyMaskedTextController();
-  //MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
+  var form = GlobalKey<FormState>();
+  var servico;
+  var valor =
+      MoneyMaskedTextController(decimalSeparator: '.', thousandSeparator: ',');
   String erro = "";
   bool seg = true;
   bool ter = true;
@@ -27,31 +23,10 @@ class ServiceRegisterState extends State<ServiceRegister> {
   bool sex = true;
   bool sab = false;
   bool dom = false;
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  var snapService = db.collection("tipoServico").snapshots();
 
   @override
   Widget build(BuildContext context) {
-    /*if (ref.uid == null) {
-      return Login();
-    } else {
-      return Body(context);
-    }*/
-
-    return Body(context);
-  }
-
-  Widget Body(BuildContext context) {
-    var form = GlobalKey<FormState>();
-
-    var snapshot = db
-        .collection('servicos')
-        .where('profissional', isEqualTo: "6ITMGwJMllt27s07Ko9I")
-        .snapshots();
-
     return Scaffold(
       appBar: AppBar(
         title: (Text("Cadastro de Serviços:")),
@@ -70,26 +45,54 @@ class ServiceRegisterState extends State<ServiceRegister> {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              TextFormField(
-                onChanged: (value) => setState(() => this.erro = ""),
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  labelText: "Serviço",
-                  labelStyle: TextStyle(
-                    color: Colors.black38,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 20,
-                  ),
-                ),
-                style: TextStyle(fontSize: 20),
-                controller: servico,
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return 'Este campo não pode ser vazio';
-                  }
-                  return null;
-                },
-              ),
+              Container(
+                  child: StreamBuilder(
+                      stream: snapService,
+                      builder:
+                          (BuildContext context, AsyncSnapshot snapService) {
+                        if (!snapService.hasData)
+                          return const Text("Loading...");
+                        if (snapService.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(child: CircularProgressIndicator());
+                        } else {
+                          List<DropdownMenuItem> currencyItems = [];
+                          for (int i = 0;
+                              i < snapService.data.docs.length;
+                              i++) {
+                            DocumentSnapshot snapshot =
+                                snapService.data.docs[i];
+                            currencyItems.add(
+                              DropdownMenuItem(
+                                child: Text(
+                                  snapshot.get('nome').toString(),
+                                ),
+                                value: "${snapshot.id}",
+                              ),
+                            );
+                          }
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: <Widget>[
+                              Expanded(
+                                child: DropdownButton(
+                                  items: currencyItems,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      servico = value;
+                                    });
+                                  },
+                                  value: servico,
+                                  isExpanded: true,
+                                  hint: Text(
+                                    "Escolha o serviço",
+                                  ),
+                                ),
+                              ),
+                            ],
+                          );
+                        }
+                      })),
               SizedBox(
                 height: 10,
               ),
@@ -209,12 +212,14 @@ class ServiceRegisterState extends State<ServiceRegister> {
                         try {
                           await addService(seg, ter, qua, qui, sex, sab, dom,
                               valor, servico);
+                          AlertDialog(
+                            title: Text('Serviço cadastrado com sucesso'),
+                          );
                         } catch (e) {
                           print(e);
                           setState(() => this.erro =
                               "Erro ao cadastrar serviço. Tente Novamente");
                         }
-                        Navigator.popAndPushNamed(context, '/servico_page');
                       }
                     },
                   ),

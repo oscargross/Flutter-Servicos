@@ -12,6 +12,7 @@ class SignUp extends StatefulWidget {
 }
 
 class SignUpState extends State<SignUp> {
+  var form = GlobalKey<FormState>();
   bool prof = true;
   bool cliente = false;
   var nome = TextEditingController();
@@ -20,14 +21,13 @@ class SignUpState extends State<SignUp> {
   var email = TextEditingController();
   var senha = TextEditingController();
   String erro = "";
+  var snapCity = db.collection("cidades").snapshots();
 
   @override
   Widget build(BuildContext context) {
-    var form = GlobalKey<FormState>();
-
     return Scaffold(
         appBar: AppBar(
-          title: (Text("Cadastro ")),
+          title: (Text("Cadastro")),
           backgroundColor: Colors.yellow[700],
         ),
         body: Container(
@@ -60,26 +60,57 @@ class SignUpState extends State<SignUp> {
                     SizedBox(
                       height: 10,
                     ),
-                    TextFormField(
-                      // autofocus: true,
-                      keyboardType: TextInputType.text,
-                      decoration: InputDecoration(
-                        labelText: "Cidade",
-                        labelStyle: TextStyle(
-                          color: Colors.black38,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 20,
-                        ),
-                      ),
-                      style: TextStyle(fontSize: 20),
-                      controller: cidade,
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Este campo não pode ser vazio';
-                        }
-                        return null;
-                      },
-                    ),
+                    Container(
+                        child: StreamBuilder(
+                            stream: snapCity,
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapCity) {
+                              if (!snapCity.hasData)
+                                return const Text("Loading...");
+                              if (snapCity.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              } else {
+                                List<DropdownMenuItem> currencyItems = [];
+                                //print(snap.data.documents);
+                                for (int i = 0;
+                                    i < snapCity.data.docs.length;
+                                    i++) {
+                                  DocumentSnapshot snapshot =
+                                      snapCity.data.docs[i];
+                                  //print(snapshot.get('city'));
+                                  currencyItems.add(
+                                    DropdownMenuItem(
+                                      child: Text(
+                                        snapshot.get('city').toString(),
+                                      ),
+                                      value: "${snapshot.id}",
+                                    ),
+                                  );
+                                }
+                                return Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Expanded(
+                                      child: DropdownButton(
+                                        items: currencyItems,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            cidade = value;
+                                          });
+                                        },
+                                        value: cidade,
+                                        isExpanded: true,
+                                        hint: Text(
+                                          "Escolha a cidade",
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                            })),
                     SizedBox(
                       height: 10,
                     ),
