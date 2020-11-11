@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth_buttons/flutter_auth_buttons.dart';
 import 'package:flutterservicos2/services/register.dart';
 import 'package:flutterservicos2/services/firebase.dart';
 
@@ -13,7 +12,6 @@ class LoginState extends State<Login> {
   var form = GlobalKey<FormState>();
   var email = TextEditingController();
   var senha = TextEditingController();
-
   String erro = "";
 
   @override
@@ -128,11 +126,6 @@ class LoginState extends State<Login> {
                                             : Navigator.popAndPushNamed(
                                                 context, '/findProfessional');
                                       });
-
-                                // ? Navigator.popAndPushNamed(
-                                //     context, '/serviceRegister')
-                                // : Navigator.popAndPushNamed(
-                                //     context, '/findProfessional');
                               }
                             }),
                       ),

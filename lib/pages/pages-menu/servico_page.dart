@@ -27,6 +27,9 @@ class _ServicoPageState extends State<ServicoPage> {
           stream: snapshot,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData) return const Text("Loading...");
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
             return ListView.builder(
               shrinkWrap: true,
               itemCount: snapshot.data.documents.length,
@@ -109,12 +112,12 @@ class _ServicoPageState extends State<ServicoPage> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
-                                      TextButton(
+                                      FlatButton(
                                         child: const Text('EDITAR'),
                                         onPressed: () {/* ... */},
                                       ),
                                       const SizedBox(width: 8),
-                                      TextButton(
+                                      FlatButton(
                                         child: const Text('EXCLUIR'),
                                         onPressed: () {
                                           showDialog(

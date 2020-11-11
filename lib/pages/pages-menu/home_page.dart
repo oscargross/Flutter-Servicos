@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
             label: 'Meus Serviços',
           ),
           FFNavigationBarItem(
-            iconData: Icons.ballot_rounded,
+            iconData: Icons.restore_page /*ballot_rounded*/,
             label: 'Contratados',
           ),
           FFNavigationBarItem(
