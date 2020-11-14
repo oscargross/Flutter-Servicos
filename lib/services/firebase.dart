@@ -34,18 +34,26 @@ Future addService(bool seg, bool ter, bool qua, bool qui, bool sex, bool sab,
   try {
     db.collection('usuario').doc(ref.uid).snapshots().listen((snapshot) async {
       var city = snapshot.get('cidade');
-      await db.collection('servicos').add({
-        'seg': seg,
-        'ter': ter,
-        'qua': qua,
-        'qui': qui,
-        'sex': sex,
-        'sab': sab,
-        'dom': dom,
-        'valor': valor.text,
-        'servico': servico.text,
-        'cidade': city,
-        'profissional': ref.uid,
+      db
+          .collection('tipoServico')
+          .doc(servico)
+          .snapshots()
+          .listen((snap) async {
+        var service = snap.get('nome');
+
+        await db.collection('servicos').add({
+          'seg': seg,
+          'ter': ter,
+          'qua': qua,
+          'qui': qui,
+          'sex': sex,
+          'sab': sab,
+          'dom': dom,
+          'valor': valor.text,
+          'servico': service,
+          'cidade': city,
+          'profissional': ref.uid,
+        });
       });
     });
 

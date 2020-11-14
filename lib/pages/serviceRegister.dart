@@ -212,9 +212,8 @@ class ServiceRegisterState extends State<ServiceRegister> {
                         try {
                           await addService(seg, ter, qua, qui, sex, sab, dom,
                               valor, servico);
-                          AlertDialog(
-                            title: Text('Serviço cadastrado com sucesso'),
-                          );
+                          Navigator.popAndPushNamed(
+                              context, '/findProfessional');
                         } catch (e) {
                           print(e);
                           setState(() => this.erro =

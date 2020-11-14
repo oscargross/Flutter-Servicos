@@ -113,18 +113,18 @@ class LoginState extends State<Login> {
                               if (form.currentState.validate()) {
                                 result = await signInWithEmailAndPassword(
                                     email, senha);
-                                result != false
+                                await result != false
                                     ? setState(() => this.erro = result)
                                     : await db
                                         .collection('usuario')
                                         .doc(ref.uid)
                                         .snapshots()
                                         .listen((snapshot) async {
-                                        snapshot.get('profissional')
+                                        await snapshot.get('profissional')
                                             ? Navigator.popAndPushNamed(
-                                                context, '/home_page')
+                                                context, '/serviceRegister')
                                             : Navigator.popAndPushNamed(
-                                                context, '/findProfessional');
+                                                context, '/serviceRegister');
                                       });
                               }
                             }),
