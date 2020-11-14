@@ -30,6 +30,7 @@ Future createUserWithEmailAndPassword(var emailVar, var passwordVar) async {
 Future signInWithEmailAndPassword(var emailVar, var passwordVar) async {
   String email = emailVar.text;
   String password = passwordVar.text;
+
   try {
     UserCredential userCredential = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
