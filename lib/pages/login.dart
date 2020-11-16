@@ -122,9 +122,9 @@ class LoginState extends State<Login> {
                                         .listen((snapshot) async {
                                         await snapshot.get('profissional')
                                             ? Navigator.popAndPushNamed(
-                                                context, '/serviceRegister')
+                                                context, '/findProfessional')
                                             : Navigator.popAndPushNamed(
-                                                context, '/serviceRegister');
+                                                context, '/findProfessional');
                                       });
                               }
                             }),
