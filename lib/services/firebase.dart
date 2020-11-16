@@ -29,6 +29,19 @@ Future addUser(
   }
 }
 
+Future getNome(String id) async {
+  String nome;
+
+  try {
+    await db.collection('usuario').doc(id).snapshots().listen((snap) async {
+      nome = snap.get('nome');
+    });
+    return nome;
+  } catch (e) {
+    return 'aguarde';
+  }
+}
+
 Future addService(bool seg, bool ter, bool qua, bool qui, bool sex, bool sab,
     bool dom, var valor, var servico) async {
   try {

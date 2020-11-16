@@ -212,8 +212,6 @@ class ServiceRegisterState extends State<ServiceRegister> {
                         try {
                           await addService(seg, ter, qua, qui, sex, sab, dom,
                               valor, servico);
-                          Navigator.popAndPushNamed(
-                              context, '/findProfessional');
                         } catch (e) {
                           print(e);
                           setState(() => this.erro =

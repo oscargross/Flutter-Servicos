@@ -8,27 +8,28 @@ class FindProfessional extends StatefulWidget {
   @override
   FindProfessionalState createState() => FindProfessionalState();
 }
-//Necessario colocar valor real da string cidade e serviço nas variaveiss para realizar a pesquisa imediata no firebase
-//Idea: inserir a atualização do valor quando utiliza o setState do dropdown
 
 class FindProfessionalState extends State<FindProfessional> {
-  var cidade;
-  var servico;
-  var snapCity = db.collection("cidades").snapshots();
-  var snapService = db.collection("tipoServico").snapshots();
-  var snapServiceFirebase = db.collection("servicos").snapshots();
-
-  //String erro = "";
+  var idCidade;
+  var idServico;
+  var newCity;
+  var newService;
+  var snapCidade = db.collection("cidades").snapshots();
+  var snapTipoServico = db.collection("tipoServico").snapshots();
+  var snapServicoContratado;
+  var nome;
+  var email;
   var form = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: (Text("Encontre o profissional:")),
-          backgroundColor: Colors.yellow[700],
-        ),
-        body: Container(
+      appBar: AppBar(
+        title: (Text("Encontre o profissional:")),
+        backgroundColor: Colors.yellow[700],
+      ),
+      body: Column(children: <Widget>[
+        Container(
             padding: EdgeInsets.only(top: 10, left: 40, right: 40),
             color: Colors.white,
             child: ListView(shrinkWrap: true, children: <Widget>[
@@ -37,28 +38,27 @@ class FindProfessionalState extends State<FindProfessional> {
                   child: Column(children: <Widget>[
                     Container(
                         child: StreamBuilder(
-                            stream: snapCity,
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapCity) {
-                              if (!snapCity.hasData)
+                            stream: snapCidade,
+                            builder: (BuildContext context,
+                                AsyncSnapshot snapCidade) {
+                              if (!snapCidade.hasData)
                                 return const Text("Loading...");
-                              if (snapCity.connectionState ==
+                              if (snapCidade.connectionState ==
                                   ConnectionState.waiting) {
                                 return Center(
                                     child: CircularProgressIndicator());
                               } else {
                                 List<DropdownMenuItem> currencyItems = [];
                                 for (int i = 0;
-                                    i < snapCity.data.docs.length;
+                                    i < snapCidade.data.docs.length;
                                     i++) {
                                   DocumentSnapshot snapshot =
-                                      snapCity.data.docs[i];
+                                      snapCidade.data.docs[i];
                                   currencyItems.add(
-                                    DropdownMenuItem(
-                                      child: Text(
-                                        snapshot.get('city').toString(),
-                                      ),
-                                      value: "${snapshot.id}",
+                                    DropdownMenuItem<String>(
+                                      child:
+                                          Text(snapshot.get('city').toString()),
+                                      value: snapshot.id,
                                     ),
                                   );
                                 }
@@ -68,12 +68,28 @@ class FindProfessionalState extends State<FindProfessional> {
                                     Expanded(
                                       child: DropdownButton(
                                         items: currencyItems,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            cidade = value;
+                                        onChanged: (value) async {
+                                          String city;
+                                          await db
+                                              .collection('cidades')
+                                              .doc(value)
+                                              .snapshots()
+                                              .listen((snap) async {
+                                            city = await snap.get('city');
+                                            setState(() {
+                                              newCity = city;
+                                              idCidade = value;
+                                              snapServicoContratado = db
+                                                  .collection("servicos")
+                                                  .where('servico',
+                                                      isEqualTo: newService)
+                                                  .where('cidade',
+                                                      isEqualTo: newCity)
+                                                  .snapshots();
+                                            });
                                           });
                                         },
-                                        value: cidade,
+                                        value: idCidade,
                                         isExpanded: true,
                                         hint: Text(
                                           "Escolha a cidade",
@@ -86,28 +102,28 @@ class FindProfessionalState extends State<FindProfessional> {
                             })),
                     Container(
                         child: StreamBuilder(
-                            stream: snapService,
+                            stream: snapTipoServico,
                             builder: (BuildContext context,
-                                AsyncSnapshot snapService) {
-                              if (!snapService.hasData)
+                                AsyncSnapshot snapTipoServico) {
+                              if (!snapTipoServico.hasData)
                                 return const Text("Loading...");
-                              if (snapService.connectionState ==
+                              if (snapTipoServico.connectionState ==
                                   ConnectionState.waiting) {
                                 return Center(
                                     child: CircularProgressIndicator());
                               } else {
                                 List<DropdownMenuItem> currencyItems = [];
                                 for (int i = 0;
-                                    i < snapService.data.docs.length;
+                                    i < snapTipoServico.data.docs.length;
                                     i++) {
                                   DocumentSnapshot snapshot =
-                                      snapService.data.docs[i];
+                                      snapTipoServico.data.docs[i];
                                   currencyItems.add(
-                                    DropdownMenuItem(
+                                    DropdownMenuItem<String>(
                                       child: Text(
                                         snapshot.get('nome').toString(),
                                       ),
-                                      value: "${snapshot.id}",
+                                      value: snapshot.id,
                                     ),
                                   );
                                 }
@@ -117,12 +133,28 @@ class FindProfessionalState extends State<FindProfessional> {
                                     Expanded(
                                       child: DropdownButton(
                                         items: currencyItems,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            servico = value;
+                                        onChanged: (value) async {
+                                          String service;
+                                          await db
+                                              .collection('tipoServico')
+                                              .doc(value)
+                                              .snapshots()
+                                              .listen((snap) async {
+                                            service = await snap.get('nome');
+                                            setState(() {
+                                              newService = service;
+                                              idServico = value;
+                                              snapServicoContratado = db
+                                                  .collection("servicos")
+                                                  .where('servico',
+                                                      isEqualTo: newService)
+                                                  .where('cidade',
+                                                      isEqualTo: newCity)
+                                                  .snapshots();
+                                            });
                                           });
                                         },
-                                        value: servico,
+                                        value: idServico,
                                         isExpanded: true,
                                         hint: Text(
                                           "Escolha o serviço",
@@ -133,48 +165,177 @@ class FindProfessionalState extends State<FindProfessional> {
                                 );
                               }
                             })),
-                    Container(
-                        child: StreamBuilder(
-                            stream: FirebaseFirestore.instance
-                                .collection('servicos')
-                                .snapshots(),
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapshot) {
-                              if (!snapshot.hasData)
-                                return const Text("Loading...");
-                              return ListView.builder(
-                                //itemExtent: 80.0,
-                                itemCount: snapshot.data.documents.length,
-                                itemBuilder: (context, index) {
-                                  DocumentSnapshot doc =
-                                      snapshot.data.documents[index];
-
-                                  return ListTile(
-                                    //leading: Icon(Icons.panorama),
-                                    title: Text(doc['servico']),
-                                    // trailing: GestureDetector(
-                                    //   onTap: () {},
-                                    //   //child: Icon(Icons.delete),
-                                    // ),
-                                  );
-                                },
-                              );
-                            }))
                   ]))
-            ])));
+            ])),
+        Container(
+          child: StreamBuilder(
+            stream: snapServicoContratado,
+            builder:
+                (BuildContext context, AsyncSnapshot snapServicoContratado) {
+              if (!snapServicoContratado.hasData) return const Text("");
+              if (snapServicoContratado.connectionState ==
+                  ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: snapServicoContratado.data.documents.length,
+                itemBuilder: (context, index) {
+                  List<String> diasSemana = [];
+                  DocumentSnapshot doc =
+                      snapServicoContratado.data.documents[index];
+
+                  if (doc['seg']) diasSemana.add("Segunda");
+                  if (doc['ter']) diasSemana.add("Terça");
+                  if (doc['qua']) diasSemana.add("Quarta");
+                  if (doc['qui']) diasSemana.add("Quinta");
+                  if (doc['sex']) diasSemana.add("Sexta");
+                  if (doc['sab']) diasSemana.add("Sábado");
+                  if (doc['dom']) diasSemana.add("Domingo");
+                  String usuario = doc['profissional'];
+                  db
+                      .collection('usuario')
+                      .doc(usuario)
+                      .snapshots()
+                      .listen((snap) async {
+                    String n = await snap.get('nome');
+                    String e = await snap.get('email');
+                    setState(() => {email = e});
+                    setState(() => {nome = n});
+                  });
+
+                  String imagem =
+                      "https://exitoina.uol.com.br/media/_versions/mia_khalifa_1807_widexl.jpg";
+
+                  return Container(
+                    child: Card(
+                      elevation: 5,
+                      child: Container(
+                        height: 150.0,
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              height: 150.0,
+                              width: 100.0,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(5),
+                                      topLeft: Radius.circular(5)),
+                                  image: DecorationImage(
+                                      fit: BoxFit.cover,
+                                      image: NetworkImage(imagem))),
+                            ),
+                            Container(
+                              height: 150,
+                              child: Padding(
+                                padding: EdgeInsets.fromLTRB(10, 2, 0, 0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Padding(
+                                      padding: EdgeInsets.fromLTRB(0, 5, 0, 2),
+                                      child: Container(
+                                        width: 260,
+                                        child: Text(
+                                          "Profissional: " + nome,
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Color.fromARGB(
+                                                  255, 48, 48, 54)),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.fromLTRB(0, 5, 0, 2),
+                                      child: Container(
+                                        width: 260,
+                                        child: Text(
+                                          "Valor: " + doc['valor'],
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Color.fromARGB(
+                                                  255, 48, 48, 54)),
+                                        ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.fromLTRB(0, 5, 0, 2),
+                                      child: Container(
+                                        width: 260,
+                                        child: Text(
+                                          'Dias atendidos: ${diasSemana.map((e) => e)}',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Color.fromARGB(
+                                                  255, 48, 48, 54)),
+                                        ),
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: <Widget>[
+                                        FlatButton(
+                                          child: const Text('Informações'),
+                                          onPressed: () {
+                                            showDialog(
+                                              context: context,
+                                              builder: (ctx) => AlertDialog(
+                                                title: Text(
+                                                    "Dados do Profissional"),
+                                                content: Text("Nome: " +
+                                                    nome +
+                                                    "\n\nE-mail: " +
+                                                    email +
+                                                    "\n\nDias atendidos: ${diasSemana.map((e) => e)}'\n\nValor: " +
+                                                    doc['valor']),
+                                                actions: <Widget>[
+                                                  FlatButton(
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: Text("Voltar"),
+                                                  ),
+                                                  FlatButton(
+                                                    onPressed: () {
+                                                      db
+                                                          .collection(
+                                                              'servicoContratado')
+                                                          .add({
+                                                        'profissional': doc.id,
+                                                      });
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                    child: Text(
+                                                        "Contratar serviço"),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                        const SizedBox(width: 8),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        )
+      ]),
+    );
   }
 }
-
-// showResults() {
-//   if (cidade == "" || servico == "") {
-//     return Container();
-//   } else {
-//     var snapshot = db
-//         .collection('servicos')
-//         .where('cidade', isEqualTo: cidade)
-//         .where('servico', isEqualTo: servico)
-//         .snapshots();
-
 // ignore: missing_return
 // Widget dropDownText() {
 // var dataArray = await db
