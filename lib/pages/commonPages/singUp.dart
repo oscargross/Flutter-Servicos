@@ -1,7 +1,5 @@
-import 'package:flutterservicos2/pages/login.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutterservicos2/pages/serviceRegister.dart';
 import 'package:flutterservicos2/services/firebase.dart';
 
 class SignUp extends StatefulWidget {
