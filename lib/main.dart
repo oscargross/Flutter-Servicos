@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutterservicos2/pages/findProfessional.dart';
-import 'package:flutterservicos2/pages/pages-menu/home_page.dart';
-import './pages/login.dart';
-import './pages/singUp.dart';
-import './pages/serviceRegister.dart';
+import 'package:flutterservicos2/pages/clientPages/findProfessional.dart';
+import 'package:flutterservicos2/pages/clientPages/homePageClient.dart';
+import 'package:flutterservicos2/pages/profPages/homePageProf.dart';
+import 'pages/commonPages/login.dart';
+import 'pages/commonPages/singUp.dart';
+import 'pages/profPages/serviceRegister.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,7 +30,8 @@ class App extends StatelessWidget {
           '/signUp': (context) => SignUp(),
           '/serviceRegister': (context) => ServiceRegister(),
           '/findProfessional': (context) => FindProfessional(),
-          '/home_page': (context) => HomePage(),
+          '/homePageClient': (context) => HomePageClient(),
+          '/homePageProf': (context) => HomePageProf(),
         });
   }
 }

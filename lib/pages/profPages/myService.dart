@@ -2,14 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterservicos2/services/firebase.dart';
 
-class ServicoPage extends StatefulWidget {
-  ServicoPage({Key key}) : super(key: key);
+class MyService extends StatefulWidget {
+  MyService({Key key}) : super(key: key);
 
   @override
-  _ServicoPageState createState() => _ServicoPageState();
+  MyServiceState createState() => MyServiceState();
 }
 
-class _ServicoPageState extends State<ServicoPage> {
+class MyServiceState extends State<MyService> {
   var snapshot = db
       .collection('servicos')
       .where('profissional', isEqualTo: ref.uid)
