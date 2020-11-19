@@ -3,6 +3,7 @@ import 'package:flutterservicos2/pages/commonPages/hiredService.dart';
 import 'package:flutterservicos2/pages/commonPages/perfilUser.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutterservicos2/pages/profPages/myService.dart';
+import 'package:flutterservicos2/main.dart';
 
 class HomePageProf extends StatefulWidget {
   HomePageProf({Key key}) : super(key: key);
@@ -68,16 +69,4 @@ class HomePageProfState extends State<HomePageProf> {
       ),
     );
   }
-}
-
-class HexColor extends Color {
-  static int _getColorFromHex(String hexColor) {
-    hexColor = hexColor.toUpperCase().replaceAll("#", "");
-    if (hexColor.length == 6) {
-      hexColor = "FF" + hexColor;
-    }
-    return int.parse(hexColor, radix: 16);
-  }
-
-  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
 }

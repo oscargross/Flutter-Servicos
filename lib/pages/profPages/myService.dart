@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterservicos2/main.dart';
 import 'package:flutterservicos2/services/firebase.dart';
 
 class MyService extends StatefulWidget {
@@ -35,9 +36,22 @@ class MyServiceState extends State<MyService> {
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index) {
                 DocumentSnapshot doc = snapshot.data.documents[index];
-                String servico = doc['servico'];
-                String imagem =
-                    "https://exitoina.uol.com.br/media/_versions/mia_khalifa_1807_widexl.jpg";
+                // var a = db
+                //     .collection('tipoServico')
+                //     .where('nome', isEqualTo: doc['servico'])
+                //     .snapshots();
+
+                // a.listen((snap) async {
+                //   for (var i = 0; i < snap.docs.data.length; i++) {
+                //     print(snap.docs[i].data());
+
+                //     if (snap.docs[i].get('nome') == servico) {
+                //       String imagem = await snap.docs[i].get('imagem');
+                //       print(imagem);
+                //       setState(() => {img = imagem});
+                //     }
+                //   }
+                // });
                 return Container(
                   child: Card(
                     elevation: 5,
@@ -54,7 +68,7 @@ class MyServiceState extends State<MyService> {
                                     topLeft: Radius.circular(5)),
                                 image: DecorationImage(
                                     fit: BoxFit.cover,
-                                    image: NetworkImage(imagem))),
+                                    image: NetworkImage(doc['img']))),
                           ),
                           Container(
                             height: 150,
@@ -75,7 +89,7 @@ class MyServiceState extends State<MyService> {
                                     child: Container(
                                       width: 260,
                                       child: Text(
-                                        "Serviço: " + servico,
+                                        "Serviço: " + doc['servico'],
                                         style: TextStyle(
                                             fontSize: 15,
                                             color: Color.fromARGB(
@@ -176,16 +190,4 @@ class MyServiceState extends State<MyService> {
       ),
     );
   }
-}
-
-class HexColor extends Color {
-  static int _getColorFromHex(String hexColor) {
-    hexColor = hexColor.toUpperCase().replaceAll("#", "");
-    if (hexColor.length == 6) {
-      hexColor = "FF" + hexColor;
-    }
-    return int.parse(hexColor, radix: 16);
-  }
-
-  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
 }

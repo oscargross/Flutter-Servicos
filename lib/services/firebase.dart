@@ -53,6 +53,7 @@ Future addService(bool seg, bool ter, bool qua, bool qui, bool sex, bool sab,
           .snapshots()
           .listen((snap) async {
         var service = snap.get('nome');
+        var img = snap.get('imagem');
 
         await db.collection('servicos').add({
           'seg': seg,
@@ -66,6 +67,7 @@ Future addService(bool seg, bool ter, bool qua, bool qui, bool sex, bool sab,
           'servico': service,
           'cidade': city,
           'profissional': ref.uid,
+          'img': img,
         });
       });
     });

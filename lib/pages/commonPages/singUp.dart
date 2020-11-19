@@ -3,8 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutterservicos2/services/firebase.dart';
 
 class SignUp extends StatefulWidget {
-  static String tag = "/signUp";
-
   @override
   SignUpState createState() => SignUpState();
 }
@@ -19,7 +17,7 @@ class SignUpState extends State<SignUp> {
   var email = TextEditingController();
   var senha = TextEditingController();
   String erro = "";
-  var snapCity = db.collection("cidades").snapshots();
+  var snapCidade = db.collection("cidades").snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +29,7 @@ class SignUpState extends State<SignUp> {
         body: Container(
             padding: EdgeInsets.only(top: 10, left: 40, right: 40),
             color: Colors.white,
-            child: ListView(children: <Widget>[
+            child: ListView(shrinkWrap: true, children: <Widget>[
               Form(
                   key: form,
                   child: Column(children: <Widget>[
@@ -60,30 +58,26 @@ class SignUpState extends State<SignUp> {
                     ),
                     Container(
                         child: StreamBuilder(
-                            stream: snapCity,
-                            builder:
-                                (BuildContext context, AsyncSnapshot snapCity) {
-                              if (!snapCity.hasData)
+                            stream: snapCidade,
+                            builder: (BuildContext context,
+                                AsyncSnapshot snapCidade) {
+                              if (!snapCidade.hasData)
                                 return const Text("Loading...");
-                              if (snapCity.connectionState ==
+                              if (snapCidade.connectionState ==
                                   ConnectionState.waiting) {
                                 return Center(
                                     child: CircularProgressIndicator());
                               } else {
                                 List<DropdownMenuItem> currencyItems = [];
-                                //print(snap.data.documents);
                                 for (int i = 0;
-                                    i < snapCity.data.docs.length;
+                                    i < snapCidade.data.docs.length;
                                     i++) {
-                                  DocumentSnapshot snapshot =
-                                      snapCity.data.docs[i];
-                                  //print(snapshot.get('city'));
+                                  DocumentSnapshot snap =
+                                      snapCidade.data.docs[i];
                                   currencyItems.add(
-                                    DropdownMenuItem(
-                                      child: Text(
-                                        snapshot.get('city').toString(),
-                                      ),
-                                      value: "${snapshot.id}",
+                                    DropdownMenuItem<String>(
+                                      child: Text(snap.get('city').toString()),
+                                      value: snap.id,
                                     ),
                                   );
                                 }
