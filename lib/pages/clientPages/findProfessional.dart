@@ -42,7 +42,7 @@ class FindProfessionalState extends State<FindProfessional> {
                             builder: (BuildContext context,
                                 AsyncSnapshot snapCidade) {
                               if (!snapCidade.hasData)
-                                return const Text("Loading...");
+                                return Text("Loading...");
                               if (snapCidade.connectionState ==
                                   ConnectionState.waiting) {
                                 return Center(
@@ -204,9 +204,6 @@ class FindProfessionalState extends State<FindProfessional> {
                     setState(() => {nome = n});
                   });
 
-                  String imagem =
-                      "https://exitoina.uol.com.br/media/_versions/mia_khalifa_1807_widexl.jpg";
-
                   return Container(
                     child: Card(
                       elevation: 5,
@@ -223,7 +220,7 @@ class FindProfessionalState extends State<FindProfessional> {
                                       topLeft: Radius.circular(5)),
                                   image: DecorationImage(
                                       fit: BoxFit.cover,
-                                      image: NetworkImage(imagem))),
+                                      image: NetworkImage(doc['img']))),
                             ),
                             Container(
                               height: 150,
@@ -302,10 +299,22 @@ class FindProfessionalState extends State<FindProfessional> {
                                                           .collection(
                                                               'servicoContratado')
                                                           .add({
-                                                        'profissional': doc.id,
+                                                        'servico': doc.id,
+                                                        'cliente': ref.uid,
+                                                        'profissional': doc.get(
+                                                            'profissional'),
                                                       });
                                                       Navigator.of(context)
                                                           .pop();
+                                                      showDialog(
+                                                          context: context,
+                                                          builder: (ctx) =>
+                                                              AlertDialog(
+                                                                title: Text(
+                                                                    "Serviço contratado com sucesso!"),
+                                                                content: Text(
+                                                                    "O profissional irá entrar em contato para confirmar os detalhes do agendamento"),
+                                                              ));
                                                     },
                                                     child: Text(
                                                         "Contratar serviço"),
