@@ -10,7 +10,7 @@ Future addUser(
     var nome, var cidade, var cpf, var email, var senha, bool prof) async {
   try {
     var authSign = await createUserWithEmailAndPassword(email, senha);
-    if (!authSign || authSign == false) {
+    if (authSign == false) {
       await db.collection('usuario').doc(ref.uid).set({
         'nome': nome.text,
         'cidade': cidade.text,
@@ -18,7 +18,6 @@ Future addUser(
         'email': email.text,
         'profissional': prof,
       });
-
       return false;
     }
     signOut();

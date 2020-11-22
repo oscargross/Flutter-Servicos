@@ -27,6 +27,8 @@ class MyServiceState extends State<MyService> {
         child: StreamBuilder(
           stream: snapshot,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasError) return const Text("");
+
             if (!snapshot.hasData) return const Text("Loading...");
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
@@ -36,6 +38,15 @@ class MyServiceState extends State<MyService> {
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index) {
                 DocumentSnapshot doc = snapshot.data.documents[index];
+                List<String> diasSemana = [];
+
+                if (doc['seg']) diasSemana.add("Segunda");
+                if (doc['ter']) diasSemana.add("Terça");
+                if (doc['qua']) diasSemana.add("Quarta");
+                if (doc['qui']) diasSemana.add("Quinta");
+                if (doc['sex']) diasSemana.add("Sexta");
+                if (doc['sab']) diasSemana.add("Sábado");
+                if (doc['dom']) diasSemana.add("Domingo");
                 // var a = db
                 //     .collection('tipoServico')
                 //     .where('nome', isEqualTo: doc['servico'])
@@ -115,7 +126,7 @@ class MyServiceState extends State<MyService> {
                                     child: Container(
                                       width: 260,
                                       child: Text(
-                                        "Dias: Seg, Ter, Qua, Qui, Sex",
+                                        "${diasSemana.map((e) => e)}",
                                         style: TextStyle(
                                             fontSize: 15,
                                             color: Color.fromARGB(

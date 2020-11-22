@@ -33,7 +33,7 @@ Future signInWithEmailAndPassword(var emailVar, var passwordVar) async {
 
   try {
     UserCredential userCredential = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: email, password: password);
+        .signInWithEmailAndPassword(email: email.trim(), password: password);
 
     ref = Usuario(userCredential.user.uid);
 

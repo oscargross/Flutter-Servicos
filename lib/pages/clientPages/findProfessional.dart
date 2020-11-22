@@ -41,6 +41,8 @@ class FindProfessionalState extends State<FindProfessional> {
                             stream: snapCidade,
                             builder: (BuildContext context,
                                 AsyncSnapshot snapCidade) {
+                              if (snapCidade.hasError) return const Text("");
+
                               if (!snapCidade.hasData)
                                 return Text("Loading...");
                               if (snapCidade.connectionState ==
@@ -105,6 +107,9 @@ class FindProfessionalState extends State<FindProfessional> {
                             stream: snapTipoServico,
                             builder: (BuildContext context,
                                 AsyncSnapshot snapTipoServico) {
+                              if (snapTipoServico.hasError)
+                                return const Text("");
+
                               if (!snapTipoServico.hasData)
                                 return const Text("Loading...");
                               if (snapTipoServico.connectionState ==
@@ -172,6 +177,8 @@ class FindProfessionalState extends State<FindProfessional> {
             stream: snapServicoContratado,
             builder:
                 (BuildContext context, AsyncSnapshot snapServicoContratado) {
+              if (snapServicoContratado.hasError) return const Text("");
+
               if (!snapServicoContratado.hasData) return const Text("");
               if (snapServicoContratado.connectionState ==
                   ConnectionState.waiting) {
@@ -181,9 +188,9 @@ class FindProfessionalState extends State<FindProfessional> {
                 shrinkWrap: true,
                 itemCount: snapServicoContratado.data.documents.length,
                 itemBuilder: (context, index) {
-                  List<String> diasSemana = [];
                   DocumentSnapshot doc =
                       snapServicoContratado.data.documents[index];
+                  List<String> diasSemana = [];
 
                   if (doc['seg']) diasSemana.add("Segunda");
                   if (doc['ter']) diasSemana.add("Terça");

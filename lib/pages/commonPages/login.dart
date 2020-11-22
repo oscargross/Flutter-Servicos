@@ -111,21 +111,25 @@ class LoginState extends State<Login> {
                             onPressed: () async {
                               dynamic result;
                               if (form.currentState.validate()) {
-                                result = await signInWithEmailAndPassword(
-                                    email, senha);
-                                await result != false
-                                    ? setState(() => this.erro = result)
-                                    : await db
-                                        .collection('usuario')
-                                        .doc(ref.uid)
-                                        .snapshots()
-                                        .listen((snapshot) async {
-                                        await snapshot.get('profissional')
-                                            ? Navigator.popAndPushNamed(
-                                                context, '/homePageClient')
-                                            : Navigator.popAndPushNamed(
-                                                context, '/homePageClient');
-                                      });
+                                try {
+                                  result = await signInWithEmailAndPassword(
+                                      email, senha);
+                                  await result != false
+                                      ? setState(() => this.erro = result)
+                                      : await db
+                                          .collection('usuario')
+                                          .doc(ref.uid)
+                                          .snapshots()
+                                          .listen((snapshot) async {
+                                          await snapshot.get('profissional')
+                                              ? Navigator.popAndPushNamed(
+                                                  context, '/homePageClient')
+                                              : Navigator.popAndPushNamed(
+                                                  context, '/homePageClient');
+                                        });
+                                } catch (e) {
+                                  setState(() => this.erro = e);
+                                }
                               }
                             }),
                       ),
