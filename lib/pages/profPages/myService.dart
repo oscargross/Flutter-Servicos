@@ -40,6 +40,7 @@ class MyServiceState extends State<MyService> {
                 DocumentSnapshot doc = snapshot.data.documents[index];
                 List<String> diasSemana = [];
 
+
                 if (doc['seg']) diasSemana.add("Segunda");
                 if (doc['ter']) diasSemana.add("Terça");
                 if (doc['qua']) diasSemana.add("Quarta");
@@ -47,31 +48,16 @@ class MyServiceState extends State<MyService> {
                 if (doc['sex']) diasSemana.add("Sexta");
                 if (doc['sab']) diasSemana.add("Sábado");
                 if (doc['dom']) diasSemana.add("Domingo");
-                // var a = db
-                //     .collection('tipoServico')
-                //     .where('nome', isEqualTo: doc['servico'])
-                //     .snapshots();
 
-                // a.listen((snap) async {
-                //   for (var i = 0; i < snap.docs.data.length; i++) {
-                //     print(snap.docs[i].data());
-
-                //     if (snap.docs[i].get('nome') == servico) {
-                //       String imagem = await snap.docs[i].get('imagem');
-                //       print(imagem);
-                //       setState(() => {img = imagem});
-                //     }
-                //   }
-                // });
                 return Container(
                   child: Card(
                     elevation: 5,
                     child: Container(
-                      height: 150.0,
+                      height: 165.0,
                       child: Row(
                         children: <Widget>[
                           Container(
-                            height: 150.0,
+                            height: 165.0,
                             width: 100.0,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
@@ -82,7 +68,7 @@ class MyServiceState extends State<MyService> {
                                     image: NetworkImage(doc['img']))),
                           ),
                           Container(
-                            height: 150,
+                            height: 165,
                             child: Padding(
                               padding: EdgeInsets.fromLTRB(10, 2, 0, 0),
                               child: Column(
@@ -137,10 +123,6 @@ class MyServiceState extends State<MyService> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
-                                      FlatButton(
-                                        child: const Text('EDITAR'),
-                                        onPressed: () {/* ... */},
-                                      ),
                                       const SizedBox(width: 8),
                                       FlatButton(
                                         child: const Text('EXCLUIR'),

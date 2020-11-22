@@ -24,7 +24,7 @@ class LoginState extends State<Login> {
               SizedBox(
                 height: 220,
                 width: 220,
-                //child: Image.asset("assets/logo.png"),
+                child: Image.asset("assets/images/imagem.png"),
               ),
               Form(
                   key: form,
@@ -111,25 +111,23 @@ class LoginState extends State<Login> {
                             onPressed: () async {
                               dynamic result;
                               if (form.currentState.validate()) {
-                                try {
-                                  result = await signInWithEmailAndPassword(
-                                      email, senha);
-                                  await result != false
-                                      ? setState(() => this.erro = result)
-                                      : await db
-                                          .collection('usuario')
-                                          .doc(ref.uid)
-                                          .snapshots()
-                                          .listen((snapshot) async {
-                                          await snapshot.get('profissional')
-                                              ? Navigator.popAndPushNamed(
-                                                  context, '/homePageClient')
-                                              : Navigator.popAndPushNamed(
-                                                  context, '/homePageClient');
-                                        });
-                                } catch (e) {
-                                  setState(() => this.erro = e);
-                                }
+                                
+
+                                result = await signInWithEmailAndPassword(
+                                    email, senha);
+                                await result != false
+                                    ? setState(() => this.erro = result)
+                                    : await db
+                                        .collection('usuario')
+                                        .doc(ref.uid)
+                                        .snapshots()
+                                        .listen((snapshot) async {
+                                        await snapshot.get('profissional')
+                                            ? Navigator.popAndPushNamed(
+                                                context, '/homePageProf')
+                                            : Navigator.popAndPushNamed(
+                                                context, '/homePageClient');
+                                      });
                               }
                             }),
                       ),
