@@ -24,7 +24,7 @@ class LoginState extends State<Login> {
               SizedBox(
                 height: 220,
                 width: 220,
-                //child: Image.asset("assets/logo.png"),
+                child: Image.asset("assets/images/imagem.png"),
               ),
               Form(
                   key: form,
@@ -122,7 +122,7 @@ class LoginState extends State<Login> {
                                         .listen((snapshot) async {
                                         await snapshot.get('profissional')
                                             ? Navigator.popAndPushNamed(
-                                                context, '/homePageClient')
+                                                context, '/homePageProf')
                                             : Navigator.popAndPushNamed(
                                                 context, '/homePageClient');
                                       });
