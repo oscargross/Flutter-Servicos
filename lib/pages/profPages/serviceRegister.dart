@@ -50,6 +50,8 @@ class ServiceRegisterState extends State<ServiceRegister> {
                       stream: snapService,
                       builder:
                           (BuildContext context, AsyncSnapshot snapService) {
+                        if (snapService.hasError) return const Text("");
+
                         if (!snapService.hasData)
                           return const Text("Loading...");
                         if (snapService.connectionState ==

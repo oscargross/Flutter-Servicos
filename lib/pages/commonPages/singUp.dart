@@ -12,12 +12,12 @@ class SignUpState extends State<SignUp> {
   bool prof = true;
   bool cliente = false;
   var nome = TextEditingController();
-  var cidade = TextEditingController();
+  var cidade;
   var cpf = TextEditingController();
   var email = TextEditingController();
   var senha = TextEditingController();
   String erro = "";
-  var snapCidade = db.collection("cidades").snapshots();
+  var snapCity = db.collection("cidades").snapshots();
 
   @override
   Widget build(BuildContext context) {
@@ -58,26 +58,30 @@ class SignUpState extends State<SignUp> {
                     ),
                     Container(
                         child: StreamBuilder(
-                            stream: snapCidade,
-                            builder: (BuildContext context,
-                                AsyncSnapshot snapCidade) {
-                              if (!snapCidade.hasData)
+                            stream: snapCity,
+                            builder:
+                                (BuildContext context, AsyncSnapshot snapCity) {
+                              if (snapCity.hasError) return const Text("");
+
+                              if (!snapCity.hasData)
                                 return const Text("Loading...");
-                              if (snapCidade.connectionState ==
+                              if (snapCity.connectionState ==
                                   ConnectionState.waiting) {
                                 return Center(
                                     child: CircularProgressIndicator());
                               } else {
                                 List<DropdownMenuItem> currencyItems = [];
                                 for (int i = 0;
-                                    i < snapCidade.data.docs.length;
+                                    i < snapCity.data.docs.length;
                                     i++) {
-                                  DocumentSnapshot snap =
-                                      snapCidade.data.docs[i];
+                                  DocumentSnapshot snapshot =
+                                      snapCity.data.docs[i];
                                   currencyItems.add(
-                                    DropdownMenuItem<String>(
-                                      child: Text(snap.get('city').toString()),
-                                      value: snap.id,
+                                    DropdownMenuItem(
+                                      child: Text(
+                                        snapshot.get('city').toString(),
+                                      ),
+                                      value: "${snapshot.id}",
                                     ),
                                   );
                                 }

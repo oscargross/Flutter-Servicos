@@ -40,6 +40,7 @@ class MyServiceState extends State<MyService> {
                 DocumentSnapshot doc = snapshot.data.documents[index];
                 List<String> diasSemana = [];
 
+
                 if (doc['seg']) diasSemana.add("Segunda");
                 if (doc['ter']) diasSemana.add("Terça");
                 if (doc['qua']) diasSemana.add("Quarta");

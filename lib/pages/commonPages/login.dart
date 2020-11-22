@@ -111,6 +111,8 @@ class LoginState extends State<Login> {
                             onPressed: () async {
                               dynamic result;
                               if (form.currentState.validate()) {
+                                
+
                                 result = await signInWithEmailAndPassword(
                                     email, senha);
                                 await result != false
