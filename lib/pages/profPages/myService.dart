@@ -27,6 +27,8 @@ class MyServiceState extends State<MyService> {
         child: StreamBuilder(
           stream: snapshot,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (snapshot.hasError) return const Text("");
+
             if (!snapshot.hasData) return const Text("Loading...");
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
@@ -36,31 +38,25 @@ class MyServiceState extends State<MyService> {
               itemCount: snapshot.data.documents.length,
               itemBuilder: (context, index) {
                 DocumentSnapshot doc = snapshot.data.documents[index];
-                // var a = db
-                //     .collection('tipoServico')
-                //     .where('nome', isEqualTo: doc['servico'])
-                //     .snapshots();
+                List<String> diasSemana = [];
 
-                // a.listen((snap) async {
-                //   for (var i = 0; i < snap.docs.data.length; i++) {
-                //     print(snap.docs[i].data());
+                if (doc['seg']) diasSemana.add("Segunda");
+                if (doc['ter']) diasSemana.add("Terça");
+                if (doc['qua']) diasSemana.add("Quarta");
+                if (doc['qui']) diasSemana.add("Quinta");
+                if (doc['sex']) diasSemana.add("Sexta");
+                if (doc['sab']) diasSemana.add("Sábado");
+                if (doc['dom']) diasSemana.add("Domingo");
 
-                //     if (snap.docs[i].get('nome') == servico) {
-                //       String imagem = await snap.docs[i].get('imagem');
-                //       print(imagem);
-                //       setState(() => {img = imagem});
-                //     }
-                //   }
-                // });
                 return Container(
                   child: Card(
                     elevation: 5,
                     child: Container(
-                      height: 150.0,
+                      height: 165.0,
                       child: Row(
                         children: <Widget>[
                           Container(
-                            height: 150.0,
+                            height: 165.0,
                             width: 100.0,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
@@ -71,7 +67,7 @@ class MyServiceState extends State<MyService> {
                                     image: NetworkImage(doc['img']))),
                           ),
                           Container(
-                            height: 150,
+                            height: 165,
                             child: Padding(
                               padding: EdgeInsets.fromLTRB(10, 2, 0, 0),
                               child: Column(
@@ -115,7 +111,7 @@ class MyServiceState extends State<MyService> {
                                     child: Container(
                                       width: 260,
                                       child: Text(
-                                        "Dias: Seg, Ter, Qua, Qui, Sex",
+                                        "${diasSemana.map((e) => e)}",
                                         style: TextStyle(
                                             fontSize: 15,
                                             color: Color.fromARGB(
@@ -126,10 +122,6 @@ class MyServiceState extends State<MyService> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: <Widget>[
-                                      FlatButton(
-                                        child: const Text('EDITAR'),
-                                        onPressed: () {/* ... */},
-                                      ),
                                       const SizedBox(width: 8),
                                       FlatButton(
                                         child: const Text('EXCLUIR'),

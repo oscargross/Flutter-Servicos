@@ -4,6 +4,7 @@ import 'package:flutterservicos2/pages/clientPages/findProfessional.dart';
 import 'package:flutterservicos2/pages/clientPages/homePageClient.dart';
 import 'package:flutterservicos2/pages/profPages/homePageProf.dart';
 import 'pages/commonPages/login.dart';
+import 'pages/commonPages/perfilUser.dart';
 import 'pages/commonPages/singUp.dart';
 import 'pages/profPages/serviceRegister.dart';
 
@@ -32,6 +33,7 @@ class App extends StatelessWidget {
           '/findProfessional': (context) => FindProfessional(),
           '/homePageClient': (context) => HomePageClient(),
           '/homePageProf': (context) => HomePageProf(),
+          '/perfilUser': (context) => PerfilUser(),
         });
   }
 }
