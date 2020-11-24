@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutterservicos2/pages/commonPages/hiredService.dart';
+import 'package:flutterservicos2/pages/profPages/hiredServiceProf.dart';
 import 'package:flutterservicos2/pages/commonPages/perfilUser.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
 import 'package:flutterservicos2/pages/profPages/myService.dart';
@@ -14,7 +14,7 @@ class HomePageProf extends StatefulWidget {
 
 class HomePageProfState extends State<HomePageProf> {
   PageController _pageController = PageController();
-  List<Widget> _screens = [MyService(), HiredService(), PerfilUser()];
+  List<Widget> _screens = [MyService(), HiredServiceProf(), PerfilUser()];
   int _selectedIndex = 0;
   void _onPageChanged(int index) {
     setState(() {
