@@ -19,7 +19,7 @@ class HiredServiceClientState extends State<HiredServiceClient> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Meus Serviços"),
+        title: Text("Serviços contratados"),
         centerTitle: true,
       ),
       body: Container(
@@ -28,9 +28,17 @@ class HiredServiceClientState extends State<HiredServiceClient> {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasError) return const Text("");
 
-            if (!snapshot.hasData) return const Text("Loading...");
+            if (!snapshot.hasData)
+              return Center(child: CircularProgressIndicator());
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.data.documents.length == 0) {
+              return Center(
+                  child: Text("Você ainda não possui serviços contratados",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Color.fromARGB(255, 48, 48, 54))));
             }
             return ListView.builder(
               shrinkWrap: true,
@@ -144,39 +152,54 @@ class HiredServiceClientState extends State<HiredServiceClient> {
                                                   context: context,
                                                   builder: (ctx) => AlertDialog(
                                                     title: Text(
-                                                        "Deseja Cancelar este serviço?"),
+                                                        "Serviço pendente!"),
+                                                    content: Text(
+                                                        "Aguarde o profissional confirmar o serviço"),
                                                     actions: <Widget>[
                                                       FlatButton(
                                                         onPressed: () {
                                                           Navigator.of(context)
                                                               .pop();
                                                         },
-                                                        child: Text("Não"),
-                                                      ),
-                                                      FlatButton(
-                                                        onPressed: () async {
-                                                          await doc.reference
-                                                              .delete();
-
-                                                          Navigator.of(context)
-                                                              .pop();
-                                                          showDialog(
-                                                              context: context,
-                                                              builder: (ctx) =>
-                                                                  AlertDialog(
-                                                                    title: Text(
-                                                                        "Serviço excluído com sucesso!"),
-                                                                    content: Text(
-                                                                        "Para novas contratações, procure um profissional e agende seu serviço"),
-                                                                  ));
-                                                        },
-                                                        child: Text("Sim"),
+                                                        child: Text("Voltar"),
                                                       ),
                                                     ],
                                                   ),
                                                 );
                                         },
                                       ),
+                                      FlatButton(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              Text(
+                                                '${doc['confirmado'] == true ? "" : "Cancelar"}',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  color:
+                                                      doc['confirmado'] == true
+                                                          ? Colors.red
+                                                          : Colors.black,
+                                                  fontSize: 15,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ],
+                                          ),
+                                          onPressed: () {
+                                            doc.reference.delete();
+
+                                            // Navigator.of(context).pop();
+                                            showDialog(
+                                                context: context,
+                                                builder: (ctx) => AlertDialog(
+                                                      title: Text(
+                                                          "Serviço excluído com sucesso!"),
+                                                      content: Text(
+                                                          "Para novas contratações, procure um profissional e agende seu serviço"),
+                                                    ));
+                                          }),
                                       const SizedBox(width: 8),
                                     ],
                                   ),

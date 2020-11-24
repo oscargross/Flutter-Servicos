@@ -19,7 +19,7 @@ class HiredServiceProfState extends State<HiredServiceProf> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Meus Serviços"),
+        title: Text("Contratados"),
         centerTitle: true,
       ),
       body: Container(
@@ -31,6 +31,13 @@ class HiredServiceProfState extends State<HiredServiceProf> {
             if (!snapshot.hasData) return const Text("Loading...");
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.data.documents.length == 0) {
+              return Center(
+                  child: Text("Você ainda não possui serviços contratados",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Color.fromARGB(255, 48, 48, 54))));
             }
             return ListView.builder(
               shrinkWrap: true,
