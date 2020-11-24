@@ -111,8 +111,6 @@ class LoginState extends State<Login> {
                             onPressed: () async {
                               dynamic result;
                               if (form.currentState.validate()) {
-                                
-
                                 result = await signInWithEmailAndPassword(
                                     email, senha);
                                 await result != false
@@ -124,7 +122,7 @@ class LoginState extends State<Login> {
                                         .listen((snapshot) async {
                                         await snapshot.get('profissional')
                                             ? Navigator.popAndPushNamed(
-                                                context, '/homePageProf')
+                                                context, '/homePageClient')
                                             : Navigator.popAndPushNamed(
                                                 context, '/homePageClient');
                                       });
