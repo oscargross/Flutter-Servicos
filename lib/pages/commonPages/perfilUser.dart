@@ -155,39 +155,6 @@ class PerfilUserState extends State<PerfilUser> {
                                   ),
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(25, 190, 0, 20),
-                                child: Container(
-                                  alignment: Alignment.topRight,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    color: Colors.amber,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(5),
-                                    ),
-                                  ),
-                                  child: FlatButton(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text(
-                                          "Sensores",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ],
-                                    ),
-                                    onPressed: () {
-                                      _findSensors();
-                                    },
-                                  ),
-                                ),
-                              ),
                             ],
                           ),
                         ),
@@ -206,7 +173,7 @@ class PerfilUserState extends State<PerfilUser> {
           Navigator.popAndPushNamed(context, '/login');
         },
         child: Icon(
-          Icons.outlined_flag,
+          Icons.exit_to_app,
           color: Colors.black,
           size: 30,
         ),

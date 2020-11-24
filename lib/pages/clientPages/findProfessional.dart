@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterservicos2/services/firebase.dart';
 
 class FindProfessional extends StatefulWidget {
-  static String tag = "/findProfessional";
-
   @override
   FindProfessionalState createState() => FindProfessionalState();
 }
@@ -279,7 +277,8 @@ class FindProfessionalState extends State<FindProfessional> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
                                         FlatButton(
-                                          child: const Text('Informações'),
+                                          child: const Text(
+                                              'Contratar/Informações'),
                                           onPressed: () {
                                             showDialog(
                                               context: context,

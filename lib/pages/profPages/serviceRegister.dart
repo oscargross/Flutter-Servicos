@@ -4,8 +4,6 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutterservicos2/services/firebase.dart';
 
 class ServiceRegister extends StatefulWidget {
-  static String tag = "/serviceRegister";
-
   @override
   ServiceRegisterState createState() => ServiceRegisterState();
 }
