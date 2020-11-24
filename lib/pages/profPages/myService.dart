@@ -29,9 +29,17 @@ class MyServiceState extends State<MyService> {
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasError) return const Text("");
 
-            if (!snapshot.hasData) return const Text("Loading...");
+            if (!snapshot.hasData)
+              return Center(child: CircularProgressIndicator());
             if (snapshot.connectionState == ConnectionState.waiting) {
               return Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.data.documents.length == 0) {
+              return Center(
+                  child: Text("Você ainda não possui serviços",
+                      style: TextStyle(
+                          fontSize: 15,
+                          color: Color.fromARGB(255, 48, 48, 54))));
             }
             return ListView.builder(
               shrinkWrap: true,
@@ -130,8 +138,8 @@ class MyServiceState extends State<MyService> {
                                             context: context,
                                             builder: (ctx) => AlertDialog(
                                               title: Text("Excluir Serviço"),
-                                              content:
-                                                  Text("Certeza dessa ação?"),
+                                              content: Text(
+                                                  "Tem certeza dessa exclusão?"),
                                               actions: <Widget>[
                                                 FlatButton(
                                                   onPressed: () {
@@ -141,9 +149,17 @@ class MyServiceState extends State<MyService> {
                                                 ),
                                                 FlatButton(
                                                   onPressed: () {
-                                                    print("SERVIÇO EXCLUÍDO");
                                                     doc.reference.delete();
                                                     Navigator.of(context).pop();
+                                                    showDialog(
+                                                        context: context,
+                                                        builder: (ctx) =>
+                                                            AlertDialog(
+                                                              title: Text(
+                                                                  "Serviço excluído com sucesso!"),
+                                                              content: Text(
+                                                                  'Para incluir novos serviços, clique no sinal de mais(+) no canto esquerdo dessa tela'),
+                                                            ));
                                                   },
                                                   child: Text("Sim"),
                                                 ),

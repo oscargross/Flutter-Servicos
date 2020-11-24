@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutterservicos2/main.dart';
 import 'package:flutterservicos2/pages/clientPages/findProfessional.dart';
-import 'package:flutterservicos2/pages/commonPages/hiredService.dart';
 import 'package:flutterservicos2/pages/commonPages/perfilUser.dart';
 import 'package:ff_navigation_bar/ff_navigation_bar.dart';
+
+import 'hiredServiceClient.dart';
 
 class HomePageClient extends StatefulWidget {
   HomePageClient({Key key}) : super(key: key);
@@ -14,7 +15,11 @@ class HomePageClient extends StatefulWidget {
 
 class _HomePageClientState extends State<HomePageClient> {
   PageController _pageController = PageController();
-  List<Widget> _screens = [HiredService(), FindProfessional(), PerfilUser()];
+  List<Widget> _screens = [
+    HiredServiceClient(),
+    FindProfessional(),
+    PerfilUser()
+  ];
   int _selectedIndex = 0;
   void _onPageChanged(int index) {
     setState(() {

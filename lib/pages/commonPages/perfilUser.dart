@@ -150,7 +150,7 @@ class PerfilUserState extends State<PerfilUser> {
           Navigator.popAndPushNamed(context, '/login');
         },
         child: Icon(
-          Icons.logout,
+          Icons.exit_to_app,
           color: Colors.black,
           size: 30,
         ),

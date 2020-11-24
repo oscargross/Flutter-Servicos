@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterservicos2/services/firebase.dart';
 
 class FindProfessional extends StatefulWidget {
-  static String tag = "/findProfessional";
-
   @override
   FindProfessionalState createState() => FindProfessionalState();
 }
@@ -280,7 +278,8 @@ class FindProfessionalState extends State<FindProfessional> {
                                       mainAxisAlignment: MainAxisAlignment.end,
                                       children: <Widget>[
                                         FlatButton(
-                                          child: const Text('Informações'),
+                                          child: const Text(
+                                              'Contratar/Informações'),
                                           onPressed: () {
                                             showDialog(
                                               context: context,
@@ -302,16 +301,55 @@ class FindProfessionalState extends State<FindProfessional> {
                                                     child: Text("Voltar"),
                                                   ),
                                                   FlatButton(
-                                                    onPressed: () {
-                                                      db
-                                                          .collection(
-                                                              'servicoContratado')
-                                                          .add({
-                                                        'servico': doc.id,
-                                                        'cliente': ref.uid,
-                                                        'profissional': doc.get(
-                                                            'profissional'),
+                                                    onPressed: () async {
+                                                      await db
+                                                          .collection('usuario')
+                                                          .doc(ref.uid)
+                                                          .snapshots()
+                                                          .listen(
+                                                              (snapshot) async {
+                                                        var nomeCliente =
+                                                            await snapshot
+                                                                .get('nome');
+                                                        var idCliente =
+                                                            await snapshot.id;
+                                                        await db
+                                                            .collection(
+                                                                "usuario")
+                                                            .doc(doc[
+                                                                'profissional'])
+                                                            .snapshots()
+                                                            .listen(
+                                                                (snapshot) async {
+                                                          var nomeProfissional =
+                                                              await snapshot
+                                                                  .get('nome');
+                                                          var idProfissional =
+                                                              await snapshot.id;
+
+                                                          db
+                                                              .collection(
+                                                                  'servicoContratado')
+                                                              .add({
+                                                            'servico': doc
+                                                                .get('servico'),
+                                                            'cliente':
+                                                                nomeCliente,
+                                                            'idCliente':
+                                                                idCliente,
+                                                            'profissional':
+                                                                nomeProfissional,
+                                                            'idProfissional':
+                                                                idProfissional,
+                                                            "confirmado": false,
+                                                            'cidade': doc
+                                                                .get('cidade'),
+                                                            'valor': doc
+                                                                .get('valor'),
+                                                          });
+                                                        });
                                                       });
+
                                                       Navigator.of(context)
                                                           .pop();
                                                       showDialog(

@@ -17,7 +17,6 @@ Future addUser(
           .snapshots()
           .listen((snapshot) async {
         var city = snapshot.get('city');
-        print(city);
         await db.collection('usuario').doc(ref.uid).set({
           'nome': nome.text,
           'cidade': city,
