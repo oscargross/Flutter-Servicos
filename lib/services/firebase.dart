@@ -11,12 +11,20 @@ Future addUser(
   try {
     var authSign = await createUserWithEmailAndPassword(email, senha);
     if (authSign == false) {
-      await db.collection('usuario').doc(ref.uid).set({
-        'nome': nome.text,
-        'cidade': cidade.text,
-        'cpf': cpf.text,
-        'email': email.text,
-        'profissional': prof,
+      await db
+          .collection('cidades')
+          .doc(cidade)
+          .snapshots()
+          .listen((snapshot) async {
+        var city = snapshot.get('city');
+        print(city);
+        await db.collection('usuario').doc(ref.uid).set({
+          'nome': nome.text,
+          'cidade': city,
+          'cpf': cpf.text,
+          'email': email.text,
+          'profissional': prof,
+        });
       });
       return false;
     }

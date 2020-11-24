@@ -25,6 +25,7 @@ class SignUpState extends State<SignUp> {
         appBar: AppBar(
           title: (Text("Cadastro")),
           backgroundColor: Colors.yellow[700],
+          centerTitle: true,
         ),
         body: Container(
             padding: EdgeInsets.only(top: 10, left: 40, right: 40),
@@ -237,10 +238,26 @@ class SignUpState extends State<SignUp> {
                                 var result = await addUser(
                                     nome, cidade, cpf, email, senha, prof);
                                 result == false
-                                    ? Navigator.pushNamed(context, '/login')
+                                    ? Navigator.popAndPushNamed(
+                                        context, '/login')
                                     : setState(() => this.erro = result);
                               }
                             }),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Container(
+                      height: 40,
+                      child: FlatButton(
+                        child: Text(
+                          "Já tem conta? Faça o login.",
+                          textAlign: TextAlign.center,
+                        ),
+                        onPressed: () {
+                          Navigator.popAndPushNamed(context, '/login');
+                        },
                       ),
                     ),
                   ]))

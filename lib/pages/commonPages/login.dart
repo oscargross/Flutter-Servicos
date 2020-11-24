@@ -111,8 +111,6 @@ class LoginState extends State<Login> {
                             onPressed: () async {
                               dynamic result;
                               if (form.currentState.validate()) {
-                                
-
                                 result = await signInWithEmailAndPassword(
                                     email, senha);
                                 await result != false
@@ -136,15 +134,17 @@ class LoginState extends State<Login> {
                       height: 5,
                     ),
                     Container(
-                        height: 40,
-                        child: FlatButton(
-                            child: Text(
-                              "Cadastre-se",
-                              textAlign: TextAlign.center,
-                            ),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/signUp');
-                            }))
+                      height: 40,
+                      child: FlatButton(
+                        child: Text(
+                          "Cadastre-se",
+                          textAlign: TextAlign.center,
+                        ),
+                        onPressed: () {
+                          Navigator.popAndPushNamed(context, '/signUp');
+                        },
+                      ),
+                    ),
                   ]))
             ])));
   }

@@ -25,8 +25,9 @@ class FindProfessionalState extends State<FindProfessional> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: (Text("Encontre o profissional:")),
+        title: (Text("Encontre o profissional")),
         backgroundColor: Colors.yellow[700],
+        centerTitle: true,
       ),
       body: Column(children: <Widget>[
         Container(
@@ -215,11 +216,11 @@ class FindProfessionalState extends State<FindProfessional> {
                     child: Card(
                       elevation: 5,
                       child: Container(
-                        height: 150.0,
+                        height: 160.0,
                         child: Row(
                           children: <Widget>[
                             Container(
-                              height: 150.0,
+                              height: 160.0,
                               width: 100.0,
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.only(
@@ -230,7 +231,7 @@ class FindProfessionalState extends State<FindProfessional> {
                                       image: NetworkImage(doc['img']))),
                             ),
                             Container(
-                              height: 150,
+                              height: 160,
                               child: Padding(
                                 padding: EdgeInsets.fromLTRB(10, 2, 0, 0),
                                 child: Column(
@@ -352,13 +353,3 @@ class FindProfessionalState extends State<FindProfessional> {
     );
   }
 }
-// ignore: missing_return
-// Widget dropDownText() {
-// var dataArray = await db
-//     .collection("dbInfo")
-//     .where('cidades')
-//     .get()
-//     .then((snapshot) => snapshot.docs.forEach((doc) {
-//           doc.get('city')[1];
-//         }));
-// }

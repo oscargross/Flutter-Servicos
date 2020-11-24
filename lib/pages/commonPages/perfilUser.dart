@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutterservicos2/main.dart';
 import 'package:flutterservicos2/services/firebase.dart';
 import 'package:flutterservicos2/services/register.dart';
@@ -14,27 +12,6 @@ class PerfilUser extends StatefulWidget {
 
 class PerfilUserState extends State<PerfilUser> {
   var snapshot = db.collection('usuario').doc(ref.uid).snapshots();
-
-  int _numberSensors = 0;
-
-  void _findSensors() {
-    print(_numberSensors);
-  }
-
-  String message = "Desativado";
-  static const platorm = const MethodChannel("app/sensors");
-
-  Future _androidComunicated() async {
-    try {
-      final int numberSens = await platorm.invokeMethod("checkSensors");
-
-      setState(() {
-        _numberSensors = numberSens;
-      });
-    } catch (error) {
-      print(error);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -152,39 +129,6 @@ class PerfilUserState extends State<PerfilUser> {
                                         fontWeight: FontWeight.bold,
                                         fontSize: 13,
                                         color: Color.fromARGB(255, 48, 48, 54)),
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsets.fromLTRB(25, 190, 0, 20),
-                                child: Container(
-                                  alignment: Alignment.topRight,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    color: Colors.amber,
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(5),
-                                    ),
-                                  ),
-                                  child: FlatButton(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        Text(
-                                          "Sensores",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.black,
-                                            fontSize: 15,
-                                          ),
-                                          textAlign: TextAlign.center,
-                                        ),
-                                      ],
-                                    ),
-                                    onPressed: () {
-                                      _findSensors();
-                                    },
                                   ),
                                 ),
                               ),
