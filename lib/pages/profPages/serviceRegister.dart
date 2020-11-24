@@ -29,6 +29,7 @@ class ServiceRegisterState extends State<ServiceRegister> {
       appBar: AppBar(
         title: (Text("Cadastro de Serviços:")),
         backgroundColor: Colors.yellow[700],
+        centerTitle: true,
       ),
       body: Container(
         padding: EdgeInsets.only(top: 10, left: 40, right: 40),
